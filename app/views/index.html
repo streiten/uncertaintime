@@ -3,10 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Time is now</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Uncertainty</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <p>Time is now</p>
+  
+  <div class="container" >
+    <div id="time"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+  <script src="libs/d3clock/d3clock.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+  <script>
+    var socket = io();
+
+    socket.on('welcome', function(msg){
+      console.log(msg);
+    });
+
+    socket.on('time', function(msg){
+      console.log(msg);
+    });
+
+
+    d3clock({
+      target:'#time',
+      face:'ntp',
+      width:1000,
+      // date:'Mon May 25 2015 10:09:37',
+      TZOffset:{
+        hours:0
+      }
+    });
+  </script>
 </body>
 </html>
