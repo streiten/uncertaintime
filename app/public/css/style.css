@@ -1,14 +1,24 @@
-body {
+.uncertainty {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  min-height: 100vh;
+  font-size: 10vw;
+  font-family: 'Arial Black', sans-serif;
 }
 
-.container {
-  width: 500px;
-  height: 500px;
-  overflow: hidden; 
-  position: absolute;
-  top: 0; right: 0; left: 0; bottom: 0;
-  margin: auto;
+.pie {
+  width: 7vw; height: 7vw;
+  transform: rotate(-90deg);
+  background: white;
+  border-radius: 50%;
 }
 
-#time {
+.pie circle {
+  fill: white;
+  stroke: #000;
+  stroke-width: 32;
+  stroke-dasharray: 0 100; /* for 38% */
 }
