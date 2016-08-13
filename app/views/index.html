@@ -15,21 +15,16 @@
 <body>
    <div class="page-wrap" >
       <div class="uncertainty">
-        
-        <div class="uncertainty-time-wrap">
-          <span id="uncertainty-time"></span>
-          <svg id="uncertainty-time-pie" class="pie" viewBox="0 0 32 32">
-            <circle id="uncertainty-time-pie-circle" r="16" cx="16" cy="16" />
-          </svg>
+        <div class="uncertain-time-wrap">
+          <span id="uncertain-time"></span>
         </div>
-
         <div class="uncertainty-time-wrap">
           <span id="real-time"></span>
-          <svg id="real-time-pie" class="pie" viewBox="0 0 32 32">
-            <circle id="real-time-pie-circle" r="16" cx="16" cy="16" />
-          </svg>
         </div>
-
+        <svg id="uncertainty-time-pie" class="pie" viewBox="0 0 32 32">
+          <circle id="real-time-pie-circle" r="16" cx="16" cy="16" />
+          <circle id="uncertainty-time-pie-circle" r="16" cx="16" cy="16" />
+        </svg>
       </div>
    </div>
 </body>

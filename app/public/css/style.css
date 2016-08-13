@@ -12,13 +12,25 @@
 .pie {
   width: 7vw; height: 7vw;
   transform: rotate(-90deg);
-  background: white;
   border-radius: 50%;
 }
 
 .pie circle {
-  fill: white;
+  fill: transparent;
   stroke: #000;
   stroke-width: 32;
-  stroke-dasharray: 0 100; /* for 38% */
+  stroke-dasharray: 0 100; 
+}
+
+.pie circle {
+  transition: stroke-dasharray 1s;
+}
+
+#uncertainty-time-pie-circle {
+  fill: transparent;
+  stroke: RGBA(255,0,0,0.5);
+}
+
+#uncertain-time {
+  text-shadow: 0 0 3px RGBA(255,0,0,1);
 }

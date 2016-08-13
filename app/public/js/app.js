@@ -5,20 +5,32 @@ socket.on('welcome', function(msg){
 });
 
 socket.on('time', function(msg){
-
-  var uncertainDate = new Date(msg);
-  var date = new Date();
-  
-  document.getElementById("uncertainty-time").innerHTML = uncertainDate.toLocaleTimeString();
-
-  var done = uncertainDate.getSeconds() / 60 * 100;
-  var DashArrayStr = done + " 100";
-  document.getElementById("uncertainty-time-pie-circle").style.strokeDasharray = DashArrayStr;
-
-  document.getElementById("real-time").innerHTML = date.toLocaleTimeString();
-  done = date.getSeconds() / 60 * 100;
-  DashArrayStr = done + " 100";
-
-  document.getElementById("real-time-pie-circle").style.strokeDasharray = DashArrayStr;
-
+  updateClocks(msg);
 });
+
+function updateClocks( msg ) {
+  
+  var uncertainTime = new Date(msg.value);
+  document.getElementById("uncertain-time").innerHTML = uncertainTime.toLocaleTimeString();
+  
+  var time = new Date();
+  document.getElementById("real-time").innerHTML = time.toLocaleTimeString();
+
+  switch(msg.unit) {
+    case 's':
+      setPieClock('uncertainty-time-pie-circle', uncertainTime.getSeconds() );
+      setPieClock('real-time-pie-circle', time.getSeconds() );
+    break; 
+    
+    case 'm':
+      setPieClock('uncertainty-time-pie-circle', uncertainTime.getMinutes() );
+      setPieClock('real-time-pie-circle', time.getMinutes() );
+    break;
+  }
+
+} 
+
+function setPieClock( selector , value ) {
+  var done = value / 60 * 100;
+  document.getElementById(selector).style.strokeDasharray = done + " 100";
+}
