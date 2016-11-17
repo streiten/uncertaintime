@@ -10,6 +10,7 @@ winston.add(winston.transports.File, { filename: 'uct.log',  json: false });
 winston.log('info', 'Server started...');
 
 // serving the web version
+
 app.use(express.static('public'));
 app.get('/',requestHandler);
 function requestHandler(request, response) {
@@ -19,7 +20,7 @@ function requestHandler(request, response) {
 
 // setting up the webserver
 http.listen(8888, function(){
-  console.log('Tick tacking since 1st of Jan 1970...')
+  console.log('Tick tacking since 1st of Jan 1970...');
 });
 
 // socket for web version
@@ -35,12 +36,22 @@ io.on('connection', function(socket){
 // the uncertain time object
 var uct = new uncertainTime('s');
 
+function requestHandler(request, response) {
+  response.sendFile( __dirname + '/views/index.html');
+  console.log('Serving another request *tick tack*.');
+}
+
+http.listen(8888, function(){
+    console.log('Tick tacking since 1st of Jan 1970...');
+});
+
 // emit time to web clients every secont
 function timebroadcast() { 
   io.emit('time', { 
     unit : 's',
     value : uct.time,
     uct: uct.uncertain
+
   });
 }
 setInterval(timebroadcast,100);

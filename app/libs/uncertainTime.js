@@ -4,59 +4,50 @@ var easing = require('easing-js');
 var util = require('util');
 
 function uncertainTime(u) {
-  self = this;
   this.unit = u;
-  
   // reading in the schedule from file
   var schedule = JSON.parse(fs.readFileSync('./schedule.json', 'utf8'));
   this.schedule = later.schedule(schedule);
   this.uncertain = false;
   // calculating the time every 100ms
-  setInterval(this.distortTime,100);
+  setInterval(this.distortTime.bind(this),100);
 }
 
 uncertainTime.prototype.distortTime = function () {
 
       var date = new Date();
     
-      switch(self.unit) {
+      switch(this.unit) {
         case 's':
-         
           var second = date.getSeconds();
-
-          if(self.schedule.isValid(date)){
+          if(this.schedule.isValid(date)){
             var second = distortFunction(second);
-            self.uncertain = true;
+            this.uncertain = true;
             //console.log("It's the time again:" + date );
           } else {
-            self.uncertain = false;
+            this.uncertain = false;
           }
-
           date.setSeconds(second);
         
         break;         
         
         case 'm':
-        
           var minute = date.getMinutes();
-
-          if(self.schedule.isValid(date)){
+          if(this.schedule.isValid(date)){
             var minute = distortFunction(minute);
-            self.uncertain = true;
-
+            this.uncertain = true;
             //console.log("It's the time again:" + date );
           } else {
-            self.uncertain = false;
+            this.uncertain = false;
           }
-        
           date.setMinutes(minute);
         
         break; 
       }
 
-  self.time = date;
+  this.time = date;
 
-}
+};
 
 function distortFunction(val) {
   var result = Math.floor(easing.easeInOutQuad(val,0,60,60));
