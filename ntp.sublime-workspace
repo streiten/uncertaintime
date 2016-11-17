@@ -4,16 +4,36 @@
 		"selected_items":
 		[
 			[
+				"di",
+				"distortTime"
+			],
+			[
+				"uncer",
+				"uncertainTime"
+			],
+			[
+				"get",
+				"getSeconds"
+			],
+			[
+				"uncert",
+				"uncertainTime	(uncertainTime.js)"
+			],
+			[
+				"trans",
+				"transition"
+			],
+			[
+				"distor",
+				"distortFunction"
+			],
+			[
 				"dis",
 				"distortedDate"
 			],
 			[
 				"die",
 				"distortedDate"
-			],
-			[
-				"get",
-				"getSeconds	(app.js)"
 			],
 			[
 				"ali",
@@ -46,10 +66,6 @@
 			[
 				"tran",
 				"translateY	(_base.scss)"
-			],
-			[
-				"trans",
-				"transform	(_base.scss)"
 			],
 			[
 				"font-",
@@ -323,7 +339,7 @@
 			"file": "app/views/index.html",
 			"settings":
 			{
-				"buffer_size": 1015,
+				"buffer_size": 1000,
 				"line_ending": "Unix"
 			}
 		},
@@ -331,7 +347,15 @@
 			"file": "app/index.js",
 			"settings":
 			{
-				"buffer_size": 1290,
+				"buffer_size": 1316,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/libs/uncertainTime.js",
+			"settings":
+			{
+				"buffer_size": 902,
 				"line_ending": "Unix"
 			}
 		},
@@ -344,18 +368,10 @@
 			}
 		},
 		{
-			"file": "app/public/css/style.css",
-			"settings":
-			{
-				"buffer_size": 499,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/public/js/app.js",
 			"settings":
 			{
-				"buffer_size": 778,
+				"buffer_size": 936,
 				"line_ending": "Unix"
 			}
 		}
@@ -507,11 +523,9 @@
 	[
 		"/Users/alextolar/Documents/Websites/ntp/app",
 		"/Users/alextolar/Documents/Websites/ntp/app/libs",
-		"/Users/alextolar/Documents/Websites/ntp/app/node_modules/easing-js/dist",
 		"/Users/alextolar/Documents/Websites/ntp/app/public",
 		"/Users/alextolar/Documents/Websites/ntp/app/public/js",
-		"/Users/alextolar/Documents/Websites/ntp/app/public/libs",
-		"/Users/alextolar/Documents/Websites/ntp/app/views"
+		"/Users/alextolar/Documents/Websites/ntp/app/public/libs"
 	],
 	"file_history":
 	[
@@ -666,6 +680,20 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"this.date.",
+			"date",
+			"this.dd",
+			"this.date",
+			"TimeC",
+			"C",
+			"Seconds",
+			"uncertainDate",
+			"Second",
+			"second",
+			"Second",
+			"second",
+			"distortedDate",
+			"distortDate",
 			" ",
 			"bones",
 			"initTeas",
@@ -779,21 +807,7 @@
 			"clase",
 			"teasers",
 			"section-contact-page",
-			"section-contact",
-			"contact",
-			"loading",
-			"contact",
-			"{\n",
-			"z-index: 5000",
-			"mobile-menu",
-			"condition",
-			"conditional_logic",
-			"Alignment",
-			"element_c",
-			"acf_",
-			"element_b1",
-			"default_value",
-			"Ausrichtung"
+			"section-contact"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -824,6 +838,7 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -832,15 +847,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1015,
+						"buffer_size": 1000,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								999,
-								999
+								727,
+								727
 							]
 						],
 						"settings":
@@ -854,7 +869,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -863,15 +878,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1290,
+						"buffer_size": 1316,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								579,
-								579
+								652,
+								652
 							]
 						],
 						"settings":
@@ -885,11 +900,43 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
+					"file": "app/libs/uncertainTime.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 902,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								335,
+								335
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 49.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "app/libs/NTPServer.js",
 					"semi_transient": true,
 					"settings":
@@ -901,45 +948,14 @@
 						"selection":
 						[
 							[
-								187,
-								187
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 239.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/public/css/style.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 499,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								495,
-								495
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -956,15 +972,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 778,
+						"buffer_size": 936,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								775,
-								775
+								781,
+								781
 							]
 						],
 						"settings":
@@ -978,7 +994,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

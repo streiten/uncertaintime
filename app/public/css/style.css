@@ -1,3 +1,8 @@
+body {
+  background: #ccc;
+  color: #eee;
+}
+
 .uncertainty {
   display: flex;
   flex-wrap: wrap;
@@ -31,6 +36,6 @@
   stroke: RGBA(255,0,0,0.5);
 }
 
-#uncertain-time {
+.active {
   text-shadow: 0 0 3px RGBA(255,0,0,1);
 }

@@ -11,10 +11,11 @@ socket.on('time', function(msg){
 function updateClocks( msg ) {
   
   var uncertainTime = new Date(msg.value);
-  document.getElementById("uncertain-time").innerHTML = uncertainTime.toLocaleTimeString();
+  var uctString = document.getElementById("uncertain-time");
+  uctString.innerHTML = uncertainTime.toLocaleTimeString();
   
   var time = new Date();
-  document.getElementById("real-time").innerHTML = time.toLocaleTimeString();
+  // document.getElementById("real-time").innerHTML = time.toLocaleTimeString();
 
   switch(msg.unit) {
     case 's':
@@ -26,6 +27,14 @@ function updateClocks( msg ) {
       setPieClock('uncertainty-time-pie-circle', uncertainTime.getMinutes() );
       setPieClock('real-time-pie-circle', time.getMinutes() );
     break;
+  }
+
+  if (msg.uct) {
+    console.log("the time");
+    uctString.className = 'active';
+  } else {
+    console.log("not the time");
+    uctString.className = '';
   }
 
 } 
