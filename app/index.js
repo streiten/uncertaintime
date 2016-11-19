@@ -34,21 +34,17 @@ io.on('connection', function(socket){
 });
 
 // the uncertain time object
-var uct = new uncertainTime('s');
+var uct = new uncertainTime('m');
 
 function requestHandler(request, response) {
   response.sendFile( __dirname + '/views/index.html');
   console.log('Serving another request *tick tack*.');
 }
 
-http.listen(8888, function(){
-    console.log('Tick tacking since 1st of Jan 1970...');
-});
-
 // emit time to web clients every secont
 function timebroadcast() { 
   io.emit('time', { 
-    unit : 's',
+    unit : 'm',
     value : uct.time,
     uct: uct.uncertain
 

@@ -5,6 +5,7 @@ var util = require('util');
 
 function uncertainTime(u) {
   this.unit = u;
+  this.debug = true;
   // reading in the schedule from file
   var schedule = JSON.parse(fs.readFileSync('./schedule.json', 'utf8'));
   this.schedule = later.schedule(schedule);
@@ -20,7 +21,7 @@ uncertainTime.prototype.distortTime = function () {
       switch(this.unit) {
         case 's':
           var second = date.getSeconds();
-          if(this.schedule.isValid(date)){
+          if(this.schedule.isValid(date) || this.debug ){
             var second = distortFunction(second);
             this.uncertain = true;
             //console.log("It's the time again:" + date );
@@ -33,7 +34,7 @@ uncertainTime.prototype.distortTime = function () {
         
         case 'm':
           var minute = date.getMinutes();
-          if(this.schedule.isValid(date)){
+          if(this.schedule.isValid(date) || this.debug ){
             var minute = distortFunction(minute);
             this.uncertain = true;
             //console.log("It's the time again:" + date );
