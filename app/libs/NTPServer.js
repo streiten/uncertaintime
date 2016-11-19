@@ -27,7 +27,7 @@ NTPserver.on("message", function(msg, rinfo) {
       });
       
       // pass the ntp packet from client on to the current NTP Server
-      server.send(msg, 0, msg.length, 123, time_server_ip, function(err, bytes) {
+      NTPserver.send(msg, 0, msg.length, 123, time_server_ip, function(err, bytes) {
           if (err) throw err;
           console.log(new Date());
           console.log('  ask to sent to ' + time_server_domain);
