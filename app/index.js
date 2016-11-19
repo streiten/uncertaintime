@@ -19,7 +19,7 @@ function requestHandler(request, response) {
 }
 
 // setting up the webserver
-http.listen(8888, function(){
+http.listen(80, function(){
   console.log('Tick tacking since 1st of Jan 1970...');
 });
 
