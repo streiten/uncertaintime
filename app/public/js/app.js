@@ -15,7 +15,7 @@ function updateClocks( msg ) {
   uctString.innerHTML = uncertainTime.toLocaleTimeString();
   
   var time = new Date();
-  // document.getElementById("real-time").innerHTML = time.toLocaleTimeString();
+  document.getElementById("real-time").innerHTML = time.toLocaleTimeString();
 
   switch(msg.unit) {
     case 's':

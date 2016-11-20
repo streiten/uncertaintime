@@ -16,37 +16,40 @@ function uncertainTime(u) {
 
 uncertainTime.prototype.distortTime = function () {
 
-      var date = new Date();
-    
+      var nowtime = new Date();
+      var uncertainTime = new Date(nowtime); 
+
       switch(this.unit) {
         case 's':
-          var second = date.getSeconds();
-          if(this.schedule.isValid(date) || this.debug ){
+          var second = uncertainTime.getSeconds();
+          if(this.schedule.isValid(uncertainTime) || this.debug ){
             var second = distortFunction(second);
             this.uncertain = true;
-            //console.log("It's the time again:" + date );
+            //console.log("It's the time again:" + uncertainTime );
           } else {
             this.uncertain = false;
           }
-          date.setSeconds(second);
+          uncertainTime.setSeconds(second);
         
         break;         
         
         case 'm':
-          var minute = date.getMinutes();
-          if(this.schedule.isValid(date) || this.debug ){
+          var minute = uncertainTime.getMinutes();
+          if(this.schedule.isValid(uncertainTime) || this.debug ){
             var minute = distortFunction(minute);
             this.uncertain = true;
-            //console.log("It's the time again:" + date );
+            //console.log("It's the time again:" + uncertainTime );
           } else {
             this.uncertain = false;
           }
-          date.setMinutes(minute);
+          uncertainTime.setMinutes(minute);
         
         break; 
       }
 
-  this.time = date;
+  this.time = uncertainTime;
+  this.timederrivation = (uncertainTime.getTime() - nowtime.getTime())/1000;
+  // console.log(this.timederrivation );
 
 };
 

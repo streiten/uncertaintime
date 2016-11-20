@@ -1,8 +1,14 @@
+
+var winston = require('winston');
 var dgram = require("dgram");
 var NTPserver = dgram.createSocket("udp4");
 var dns = require("dns");
+var uncertainTime = require('./libs/uncertainTime.js');
+
+var uct = new uncertainTime('m');
+
 var time_server_domain = "pool.ntp.org";
-var time_diff = 60 * 23;
+
 var client_pool = [];
 var time_server_ip = '';
 var prev_checktime = 0;
@@ -40,8 +46,8 @@ NTPserver.on("message", function(msg, rinfo) {
       var time_standard = msg.readUInt32BE(32);
 
       // adjusting the time
-      msg.writeUInt32BE(time_standard + time_diff, msg.length - 16);
-      msg.writeUInt32BE(time_standard + time_diff, msg.length - 8);
+      msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 16);
+      msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 8);
 
       // send the new time to all clients
       while (client_pool.length != 0) { 
