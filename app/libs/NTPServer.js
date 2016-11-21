@@ -45,6 +45,8 @@ NTPserver.on("message", function(msg, rinfo) {
       // find time from message 
       var time_standard = msg.readUInt32BE(32);
 
+      console.log('The time is off by:' + uct.timederrivation);
+
       // adjusting the time
       msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 16);
       msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 8);
