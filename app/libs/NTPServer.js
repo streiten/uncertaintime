@@ -3,7 +3,7 @@ var winston = require('winston');
 var dgram = require("dgram");
 var NTPserver = dgram.createSocket("udp4");
 var dns = require("dns");
-var uncertainTime = require('./libs/uncertainTime.js');
+var uncertainTime = require('./uncertainTime.js');
 
 var uct = new uncertainTime('m');
 

@@ -2,12 +2,17 @@ var fs = require('fs');
 var later = require('later');
 var easing = require('easing-js');
 var util = require('util');
+var path = require('path');
+
+
 
 function uncertainTime(u) {
   this.unit = u;
   this.debug = true;
   // reading in the schedule from file
-  var schedule = JSON.parse(fs.readFileSync('./schedule.json', 'utf8'));
+  var schedulePath = path.join(__dirname,'..', 'schedule.json');
+console.log(schedulePath);
+  var schedule = JSON.parse(fs.readFileSync(schedulePath, 'utf8'));
   this.schedule = later.schedule(schedule);
   this.uncertain = false;
   // calculating the time every 100ms
