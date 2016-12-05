@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"time",
+				"timederrivation\t(uncertainTime.js)"
+			],
+			[
 				"di",
 				"distortTime"
 			],
@@ -17,7 +21,7 @@
 			],
 			[
 				"uncert",
-				"uncertainTime	(uncertainTime.js)"
+				"uncertainTime\t(uncertainTime.js)"
 			],
 			[
 				"trans",
@@ -45,11 +49,11 @@
 			],
 			[
 				"full",
-				"fullpage.js	(gulpfile.js)"
+				"fullpage.js\t(gulpfile.js)"
 			],
 			[
 				"text",
-				"textarea	<textarea>"
+				"textarea\t<textarea>"
 			],
 			[
 				"init",
@@ -65,7 +69,7 @@
 			],
 			[
 				"tran",
-				"translateY	(_base.scss)"
+				"translateY\t(_base.scss)"
 			],
 			[
 				"font-",
@@ -117,11 +121,11 @@
 			],
 			[
 				"comm",
-				"comm-section	Comment - Full section comment"
+				"comm-section\tComment - Full section comment"
 			],
 			[
 				"le",
-				"legacy	(single-projects.twig)"
+				"legacy\t(single-projects.twig)"
 			],
 			[
 				"displ",
@@ -137,11 +141,11 @@
 			],
 			[
 				"display",
-				"display:block	(_base.scss)"
+				"display:block\t(_base.scss)"
 			],
 			[
 				"comme",
-				"comm-section	Comment - Full section comment"
+				"comm-section\tComment - Full section comment"
 			],
 			[
 				"abo",
@@ -149,7 +153,7 @@
 			],
 			[
 				"row__",
-				"row__meta	(footer.twig)"
+				"row__meta\t(footer.twig)"
 			],
 			[
 				"none",
@@ -161,11 +165,11 @@
 			],
 			[
 				"exten",
-				"extend	(mailchimp.twig)"
+				"extend\t(mailchimp.twig)"
 			],
 			[
 				"mc_",
-				"mc_embed_signup	(mailchimp.twig)"
+				"mc_embed_signup\t(mailchimp.twig)"
 			],
 			[
 				"initS",
@@ -181,11 +185,11 @@
 			],
 			[
 				"var",
-				"var_dump	(page-home.twig)"
+				"var_dump\t(page-home.twig)"
 			],
 			[
 				"lan",
-				"language	(header.php)"
+				"language\t(header.php)"
 			],
 			[
 				"mat",
@@ -241,7 +245,7 @@
 			],
 			[
 				"for",
-				"foreach	foreach …"
+				"foreach\tforeach …"
 			],
 			[
 				"margin-",
@@ -339,7 +343,8 @@
 			"file": "app/views/index.html",
 			"settings":
 			{
-				"buffer_size": 1000,
+				"buffer_size": 989,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -347,7 +352,8 @@
 			"file": "app/index.js",
 			"settings":
 			{
-				"buffer_size": 1316,
+				"buffer_size": 1497,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -355,7 +361,8 @@
 			"file": "app/libs/uncertainTime.js",
 			"settings":
 			{
-				"buffer_size": 902,
+				"buffer_size": 1876,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -363,7 +370,23 @@
 			"file": "app/libs/NTPServer.js",
 			"settings":
 			{
-				"buffer_size": 2323,
+				"buffer_size": 3153,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/generateSchedule.js",
+			"settings":
+			{
+				"buffer_size": 748,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/schedule.json",
+			"settings":
+			{
+				"buffer_size": 7461,
 				"line_ending": "Unix"
 			}
 		},
@@ -371,7 +394,8 @@
 			"file": "app/public/js/app.js",
 			"settings":
 			{
-				"buffer_size": 936,
+				"buffer_size": 1126,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -383,10 +407,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 187.0,
-		"last_filter": "git comm",
+		"height": 87.0,
+		"last_filter": "git push",
 		"selected_items":
 		[
+			[
+				"git push",
+				"Git: Push"
+			],
 			[
 				"git comm",
 				"Git: Commit"
@@ -396,20 +424,24 @@
 				"Git: Add Current File"
 			],
 			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git ",
+				"Git: Commit"
+			],
+			[
 				"hex",
 				"Hex Viewer: Toggle Hex View"
 			],
 			[
 				"pack",
 				"Package Control: Install Package"
-			],
-			[
-				"git push",
-				"Git: Push"
-			],
-			[
-				"git ",
-				"Git: Commit"
 			],
 			[
 				"git stat",
@@ -421,10 +453,6 @@
 			],
 			[
 				"git commit",
-				"Git: Commit"
-			],
-			[
-				"git com",
 				"Git: Commit"
 			],
 			[
@@ -476,10 +504,6 @@
 				"JSHint"
 			],
 			[
-				"git c",
-				"Git: Commit"
-			],
-			[
 				"git sta",
 				"Git: Status"
 			],
@@ -521,14 +545,15 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/alextolar/Documents/Websites/ntp/app",
-		"/Users/alextolar/Documents/Websites/ntp/app/libs",
-		"/Users/alextolar/Documents/Websites/ntp/app/public",
-		"/Users/alextolar/Documents/Websites/ntp/app/public/js",
-		"/Users/alextolar/Documents/Websites/ntp/app/public/libs"
+		"/Users/Alex/Documents/Websites/ntp/app",
+		"/Users/Alex/Documents/Websites/ntp/app/libs",
+		"/Users/Alex/Documents/Websites/ntp/app/public",
+		"/Users/Alex/Documents/Websites/ntp/app/public/js"
 	],
 	"file_history":
 	[
+		"/Users/Alex/Documents/Websites/ntp/links.txt",
+		"/Users/Alex/Documents/Websites/ntp/app/libs/uncertainTime.js",
 		"/Users/alextolar/Documents/Websites/ntp/app/public/css/style.css",
 		"/Users/alextolar/Documents/Websites/ntp/index.js",
 		"/Users/alextolar/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/acf_definitions.inc",
@@ -654,13 +679,11 @@
 		"/Users/Alex/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/library/custom-post-type.php",
 		"/Users/Alex/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/library/scss/modules/_mailchimp.scss",
 		"/Users/Alex/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/library/scss/modules/_magnificpopup.scss",
-		"/Users/Alex/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/bower_components/magnific-popup/dist/magnific-popup.css",
-		"/Users/Alex/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/Users/Alex/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/library/scss/modules/_buttons.scss"
+		"/Users/Alex/Documents/Websites/realgestalt/site/wp-content/themes/realgestalt/bower_components/magnific-popup/dist/magnific-popup.css"
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -680,6 +703,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"date",
+			"server",
 			"this.date.",
 			"date",
 			"this.dd",
@@ -805,9 +830,7 @@
 			"section-headline",
 			"section-related-referen",
 			"clase",
-			"teasers",
-			"section-contact-page",
-			"section-contact"
+			"teasers"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -838,7 +861,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -847,15 +870,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1000,
+						"buffer_size": 989,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								727,
-								727
+								647,
+								647
 							]
 						],
 						"settings":
@@ -869,7 +892,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -878,15 +901,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1316,
+						"buffer_size": 1497,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								652,
-								652
+								670,
+								670
 							]
 						],
 						"settings":
@@ -897,7 +920,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 293.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
@@ -909,27 +932,26 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 902,
+						"buffer_size": 1876,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								335,
-								335
+								317,
+								317
 							]
 						],
 						"settings":
 						{
-							"auto_name": "",
 							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 49.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -938,18 +960,49 @@
 				{
 					"buffer": 3,
 					"file": "app/libs/NTPServer.js",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2323,
+						"buffer_size": 3153,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1168,
+								1168
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 487.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/generateSchedule.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 748,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								138,
+								138
 							]
 						],
 						"settings":
@@ -963,30 +1016,29 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "app/public/js/app.js",
+					"buffer": 5,
+					"file": "app/schedule.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 936,
+						"buffer_size": 7461,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								781,
-								781
+								124,
+								124
 							]
 						],
 						"settings":
 						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -995,6 +1047,37 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/public/js/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1126,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								366,
+								444
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1041,7 +1124,7 @@
 	},
 	"output.git":
 	{
-		"height": 218.0
+		"height": 214.0
 	},
 	"output.hex_viewer_inspector":
 	{
@@ -1060,6 +1143,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"sche",
+				"schedule.json"
+			],
 			[
 				"style",
 				"public/css/style.css"
@@ -1567,10 +1654,6 @@
 			[
 				"single-ref",
 				"single-references.php"
-			],
-			[
-				".gitig",
-				".gitignore"
 			]
 		],
 		"width": 0.0

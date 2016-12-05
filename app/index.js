@@ -34,7 +34,7 @@ io.on('connection', function(socket){
 });
 
 // the uncertain time object
-var uct = new uncertainTime('m');
+var uct = new uncertainTime('s');
 
 function requestHandler(request, response) {
   response.sendFile( __dirname + '/views/index.html');
@@ -44,7 +44,7 @@ function requestHandler(request, response) {
 // emit time to web clients every secont
 function timebroadcast() { 
   io.emit('time', { 
-    unit : 'm',
+    unit : 's',
     value : uct.time,
     uct: uct.uncertain
 

@@ -1,0 +1,13 @@
+http://time.is/
+
+the drift (irrelevant)
+/var/db/ntp.drift
+
+current time server
+cat /private/etc/ntp.conf
+
+the time 
+sudo systemsetup -gettime
+
+setting the timeserver
+systemsetup -setnetworktimeserver ntp.krypted.com
