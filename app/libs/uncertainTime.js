@@ -28,45 +28,21 @@ uncertainTime.prototype.distortTime = function () {
       
       var duration = 60;
       var end = nowtimeMinuteInSeconds + duration;
+      console.log('End:' + new Date(end*1000));
       
-      //console.log('End:' + new Date(end*1000));
-
-
       var uncertainTime = new Date(nowtime); 
+      
+      if(this.schedule.isValid(uncertainTime) || this.debug ){
+        //console.log('NowTime in seconds:' + ( nowtimeInSeconds));
+        var seconds = distortFunction(nowtimeInSeconds,nowtimeMinuteInSeconds,end);
 
-      switch(this.unit) {
-        case 's':
-          // var second = uncertainTime.getSeconds();
-          //  uncertainTime.getTime()/1000;
-          
-          if(this.schedule.isValid(uncertainTime) || this.debug ){
-            //console.log('NowTime in seconds:' + ( nowtimeInSeconds));
-            var seconds = distortFunction(nowtimeInSeconds,nowtimeMinuteInSeconds,end);
-            console.log('Seconds new:' + ( seconds));
-
-            this.uncertain = true;
-            //console.log("It's the time again:" + uncertainTime );
-          } else {
-            this.uncertain = false;
-          }
-          uncertainTime.setTime(seconds * 1000);
-        
-        break;         
-        
-        // case 'm':
-        //   var minute = uncertainTime.getMinutes();
-        //   if(this.schedule.isValid(uncertainTime) || this.debug ){
-        //     var minute = distortFunction(minute,0,60);
-        //     this.uncertain = true;
-        //     //console.log("It's the time again:" + uncertainTime );
-        //   } else {
-        //     this.uncertain = false;
-        //   }
-        //   uncertainTime.setMinutes(minute);
-        
-        // break; 
+        this.uncertain = true;
+        //console.log("It's the time again:" + uncertainTime );
+      } else {
+        this.uncertain = false;
       }
-
+      uncertainTime.setTime(seconds * 1000);
+        
   this.time = uncertainTime;
   this.timederrivation = (uncertainTime.getTime() - nowtime.getTime())/1000;
   // console.log(this.timederrivation );
@@ -76,13 +52,16 @@ uncertainTime.prototype.distortTime = function () {
 function distortFunction(val,start,end) {
   
   var diff = end - start;
+  var val = val - start; 
 
-  console.log('Val:' + val);
-  console.log('Start:' + start);
-  console.log('End:' + end);
-  console.log('Diff:' + diff);
+  // console.log('Val:' + val);
+  // console.log('Start:' + start);
+  // console.log('End:' + end);
+  // console.log('Diff:' + diff);
 
-  var result = Math.floor(easing.easeInOutQuad(val,start,diff,diff));
+  var result = Math.floor(easing.easeInOutQuad(val,0,diff,diff));
+
+  result = result + start;
 
   console.log('Result:' + result);
 
