@@ -1,29 +1,40 @@
 
 var winston = require('winston');
 var dgram = require("dgram");
-var NTPserver = dgram.createSocket("udp4");
+var UDP = dgram.createSocket("udp4");
 var dns = require("dns");
+
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
+util.inherits(NTPServer, EventEmitter);
+
 var uncertainTime = require('./uncertainTime.js');
 
-var uct = new uncertainTime('m');
+function NTPServer (port) {
 
-var time_server_domain = "pool.ntp.org";
+  var uct = new uncertainTime('m');
 
-var client_pool = [];
-var time_server_ip = '';
-var prev_checktime = 0;
-var ttl = 10000;
+  var time_server_domain = "pool.ntp.org";
 
-NTPserver.on("message", function(msg, rinfo) {
-  
-  var serverMessageHandler = function() {
+  var client_pool = [];
+  var time_server_ip = '';
+  var prev_checktime = 0;
+  var ttl = 10000;
+
+  this.port = port;
+
+  UDP.on("message", function(msg, rinfo) {
+
+// ---->>> serverMessageHandler <<<-----
     
-    console.log(new Date());
-    console.log(["  message from ", rinfo.address, ":", rinfo.port].join(''));
-    
+    var serverMessageHandler = function() {
+
+      console.log(new Date());
+      console.log(["  message from ", rinfo.address, ":", rinfo.port].join(''));
+
     // request ip != ntp server => message from client
     if (rinfo.address != time_server_ip) { //time sync request from client
-      
+
       console.log(rinfo.address + ' is different with ' + time_server_ip);
       
       // add client to client list
@@ -33,17 +44,21 @@ NTPserver.on("message", function(msg, rinfo) {
       });
       
       // pass the ntp packet from client on to the current NTP Server
-      NTPserver.send(msg, 0, msg.length, 123, time_server_ip, function(err, bytes) {
-          if (err) throw err;
-          console.log(new Date());
-          console.log('  ask to sent to ' + time_server_domain);
+      // move to method 'getRealTime'
+      UDP.send(msg, 0, msg.length, 123, time_server_ip, function(err, bytes) {
+        if (err) throw err;
+        console.log(new Date());
+        console.log('  ask to sent to ' + time_server_domain);
       });
 
     // request ip = ntp server => recieving msg from ntp server
-    } else {
+  } else {
 
       // find time from message 
       var time_standard = msg.readUInt32BE(32);
+
+      // this.emit('requestUncertime');
+      // ... send time to clients on event the following code moved to a function 
 
       console.log('The time is off by:' + uct.timederrivation);
 
@@ -53,10 +68,10 @@ NTPserver.on("message", function(msg, rinfo) {
 
       // send the new time to all clients
       while (client_pool.length != 0) { 
-        
+
         (function(to_ip, to_port) {
           // send the message to this client
-          NTPserver.send(msg, 0, msg.length, to_port, to_ip, function(err, bytes) {
+          UDP.send(msg, 0, msg.length, to_port, to_ip, function(err, bytes) {
             if (err) throw err;
             console.log(new Date());
             console.log('  response to ' + to_ip + ':' + to_port);
@@ -65,11 +80,13 @@ NTPserver.on("message", function(msg, rinfo) {
         
         // removing the client from clients list
         client_pool.splice(0, 1);
-      
+
       }
     }
   };
 
+// ---->>> serverMessageHandler END <<<-----
+  
   ///// only if ttl expired --> get new NTP Server
   if (prev_checktime + ttl < (new Date()).getTime()) { //TTL 3 hours
 
@@ -77,7 +94,7 @@ NTPserver.on("message", function(msg, rinfo) {
     
     // get a timeserver
     dns.lookup(time_server_domain, 4, function(err, ip, ipv) {
-      
+
       if (err) {
         console.log('Error in DNS Lookup');
         console.log(err);
@@ -95,14 +112,33 @@ NTPserver.on("message", function(msg, rinfo) {
       // handle the request
       serverMessageHandler();
     });
+
   } else {
+    
     serverMessageHandler();
   }
+
 });
 
-NTPserver.on("listening", function() {
-  var address = NTPserver.address();
-  console.log("server listening " + address.address + ":" + address.port);
-});
+  // ?
+  UDP.on("listening", function() {
+    var address = UDP.address();
+    console.log("NTP server listening at " + address.address + " on " + address.port);
+  });
 
-NTPserver.bind(123);
+  UDP.bind(port);
+}
+
+NTPServer.prototype.getNewNTPServerIp = function (){
+
+}
+
+NTPServer.prototype.getNTPTime = function (){
+  
+}
+
+NTPServer.prototype.getUncertainTime = function (){
+  
+}
+
+module.exports = NTPServer;

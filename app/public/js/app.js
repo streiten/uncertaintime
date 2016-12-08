@@ -8,6 +8,14 @@ socket.on('time', function(msg){
   updateClocks(msg);
 });
 
+
+// emit time to web clients every secont
+function getUncertime() { 
+  socket.emit('gettime');
+}
+setInterval(getUncertime,100);
+
+
 function updateClocks( msg ) {
   
   var uncertainTime = new Date(msg.value);
@@ -30,7 +38,7 @@ function updateClocks( msg ) {
   }
 
   if (msg.uct) {
-    console.log("the time");
+    //console.log("the time");
     uctString.className = 'active';
   } else {
     console.log("not the time");
