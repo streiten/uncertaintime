@@ -13,21 +13,35 @@ function uncertainTime(u) {
   var schedule = JSON.parse(fs.readFileSync(schedulePath, 'utf8'));
   this.schedule = later.schedule(schedule);
   this.uncertain = false;
+  this.minute = new Date().getMinutes();
   // calculating the time every 100ms
-  setInterval(this.distortTime.bind(this),100);
+  setInterval(this.distortTime.bind(this),1000);
 }
 
 uncertainTime.prototype.distortTime = function () {
 
+      var durationMins = 3;
+
       var nowtime = new Date();
       var nowtimeInSeconds = Math.floor(nowtime.getTime()/1000);
+      var nowtimeMinute = new Date(nowtime);
       
-      var nowtimeMinute = new Date(nowtime.setSeconds(0));
+      if(nowtimeMinute.getMinutes() % durationMins == 0) {
+        this.minute = nowtimeMinute.getMinutes();
+      }
+
+      console.log('nowtimeminute: ' + this.minute);
+      
+      nowtimeMinute.setMinutes(this.minute);
+      nowtimeMinute.setSeconds(0);
+
       var nowtimeMinuteInSeconds = Math.floor(nowtimeMinute.getTime()/1000);
-      console.log('Second:' + (nowtimeInSeconds - nowtimeMinuteInSeconds));
       
-      var duration = 60;
+      var duration = 60 * durationMins;
       var end = nowtimeMinuteInSeconds + duration;
+      
+      console.log('Now:' + nowtime);
+      console.log('Start:' + new Date(nowtimeMinute));
       console.log('End:' + new Date(end*1000));
       
       var uncertainTime = new Date(nowtime); 
@@ -54,16 +68,17 @@ function distortFunction(val,start,end) {
   var diff = end - start;
   var val = val - start; 
 
-  // console.log('Val:' + val);
-  // console.log('Start:' + start);
-  // console.log('End:' + end);
-  // console.log('Diff:' + diff);
+  console.log('Val:' + val);
+  console.log('Start:' + start);
+  console.log('End:' + end);
+  console.log('Diff:' + diff);
 
   var result = Math.floor(easing.easeInOutQuad(val,0,diff,diff));
 
+  console.log('Result:' + result);
   result = result + start;
 
-  console.log('Result:' + result);
+  // console.log('Result:' + result);
 
   return result; 
 }
