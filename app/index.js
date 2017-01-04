@@ -14,8 +14,10 @@ winston.log('info', 'Server started...');
 // NTP Port 
 if(process.env.NODE_ENV == "development") {
   var ntpport = 1234; 
+  var httpport = 8080;
 } else {
-  var ntpport = 123; 
+  var ntpport = 123;
+  var httpport = 80;
 }
 
 /**
@@ -36,8 +38,8 @@ function requestHandler(request, response) {
   winston.log('info', 'Serving another request *tick tack*.');
 }
 
-http.listen(8080, function(){
-  console.log('Tick tacking since 1st of Jan 1970...');
+http.listen(httpport, function(){
+  console.log('Tick tacking since 1st of Jan 1970... on' + httpport);
 });
 
 
