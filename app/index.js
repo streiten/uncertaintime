@@ -7,18 +7,19 @@ var io = require('socket.io')(http);
 var uncertainTime = require('./libs/uncertainTime.js');
 var NTPServer = require('./libs/NTPServer.js');
 
-winston.level = 'debug';
+if(process.env.NODE_ENV == "development") {
+  winston.level = 'debug';
+} else {
+  winston.level = 'error';
+}
+
 winston.add(winston.transports.File, { filename: 'uct.log',  json: false });
 winston.log('info', 'Server started...');
 
 // NTP Port 
-if(process.env.NODE_ENV == "development") {
-  var ntpport = 1234; 
-  var httpport = 8080;
-} else {
-  var ntpport = 123;
-  var httpport = 80;
-}
+// port mapped by ufw to privileged ports 123 and 80 in production  
+var ntpport = 1234; 
+var httpport = 8080;
 
 /**
  * The Uncertime
@@ -39,7 +40,7 @@ function requestHandler(request, response) {
 }
 
 http.listen(httpport, function(){
-  console.log('Tick tacking since 1st of Jan 1970... on' + httpport);
+  console.log('Tick tacking since 1st of Jan 1970... on ' + httpport);
 });
 
 
