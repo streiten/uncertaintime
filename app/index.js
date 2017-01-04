@@ -11,6 +11,13 @@ winston.level = 'debug';
 winston.add(winston.transports.File, { filename: 'uct.log',  json: false });
 winston.log('info', 'Server started...');
 
+// NTP Port 
+if(process.env.NODE_ENV == "development") {
+  var ntpport = 1234; 
+} else {
+  var ntpport = 123; 
+}
+
 /**
  * The Uncertime
  */
@@ -58,7 +65,7 @@ io.on('connection', function(socket){
  * The NTP Serving
  */
 
-ntps = new NTPServer(1234);
+ntps = new NTPServer(ntpport);
 
 ntps.on('requestUncertime',requestUncertimeHandler);
 function requestUncertimeHandler(data) {
