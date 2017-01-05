@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Uncertain Time</title>
+  <link href="https://fonts.googleapis.com/css?family=Assistant:200|Nixie+One|Raleway:100,200" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+  
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="/js/app.js"></script>
+
+</head>
+
+<body class="debug" >
+   <div class="page-wrap" >
+      <div class="uncertainty">
+        <div class="uncertain-time-wrap">
+          <span id="uncertain-time" class="active"></span><br>
+          <span id="real-time" class="active"></span>
+        </div>
+        <svg id="uncertainty-time-pie" class="pie" viewBox="0 0 32 32">
+          <circle id="real-time-pie-circle" r="16" cx="16" cy="16" />
+          <circle id="uncertainty-time-pie-circle" r="16" cx="16" cy="16" />
+        </svg>
+      </div>
+   </div>
+</body>
+</html>

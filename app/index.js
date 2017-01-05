@@ -32,12 +32,20 @@ var uct = new uncertainTime();
  */
 
 app.use(express.static('public'));
-app.get('/',requestHandler);
 
-function requestHandler(request, response) {
+app.get('/',requestHandlerHome);
+app.get('/debug',requestHandlerDebug);
+
+function requestHandlerHome(request, response) {
   response.sendFile( __dirname + '/views/index.html');
-  winston.log('info', 'Serving another request *tick tack*.');
+  winston.log('info', 'Serving another Home request *tick tack*.');
 }
+
+function requestHandlerDebug(request, response) {
+  response.sendFile( __dirname + '/views/debug.html');
+  winston.log('info', 'Serving another Debug request *tick tack*.');
+}
+
 
 http.listen(httpport, function(){
   console.log('Tick tacking since 1st of Jan 1970... on ' + httpport);
