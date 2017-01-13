@@ -95,14 +95,13 @@ NTPServer.prototype.refreshNTPServerIp = function (){
     dns.lookup(this.time_server_domain, 4, function(err, ip, ipv) {
 
       if (err) {
-        console.log('Error in DNS Lookup');
-        console.log(err);
+        winston.log('error', 'Error in DNS Lookup!');
+        winston.log('error',err);
         return;
       }
 
       this.time_server_ip = ip;
-      console.log('New NTP Server IP is: '+ ip);
-
+      winston.log('info', 'New NTP Server IP is: '+ ip);
       }
     );
 };

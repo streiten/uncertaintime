@@ -10,7 +10,7 @@ var NTPServer = require('./libs/NTPServerOOP.js');
 if(process.env.NODE_ENV == "development") {
   winston.level = 'debug';
 } else {
-  winston.level = 'error';
+  winston.level = 'debug';
 }
 
 winston.add(winston.transports.File, { filename: 'uct.log',  json: false });
@@ -46,9 +46,8 @@ function requestHandlerDebug(request, response) {
   winston.log('info', 'Serving another Debug request *tick tack*.');
 }
 
-
 http.listen(httpport, function(){
-  console.log('Tick tacking since 1st of Jan 1970... on ' + httpport);
+  winston.log('info', 'Tick tacking since 1st of Jan 1970... on ' + httpport);
 });
 
 
