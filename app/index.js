@@ -5,7 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var uncertainTime = require('./libs/uncertainTime.js');
-var NTPServer = require('./libs/NTPServer.js');
+var NTPServer = require('./libs/NTPServerOOP.js');
 
 if(process.env.NODE_ENV == "development") {
   winston.level = 'debug';
@@ -78,9 +78,10 @@ io.on('connection', function(socket){
 
 ntps = new NTPServer(ntpport);
 
-ntps.on('requestUncertime',requestUncertimeHandler);
-function requestUncertimeHandler(data) {
-  // send time back to NTPS... ??? 
+ntps.on('requestUncerainTime',requestUncerainTimeHandler);
+
+function requestUncerainTimeHandler(data) {
+  winston.log('info', 'requestUncerainTimeHandler event emitted and caught');
 }
 
 // utils

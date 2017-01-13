@@ -6,7 +6,6 @@ var path = require('path');
 
 
 function uncertainTime(u) {
-  this.unit = u;
   this.debug = true;
   // reading in the schedule from file
   var schedulePath = path.join(__dirname,'..', 'schedule.json');
@@ -30,7 +29,7 @@ uncertainTime.prototype.distortTime = function () {
         this.minute = nowtimeMinute.getMinutes();
       }
 
-      console.log('nowtimeminute: ' + this.minute);
+      // console.log('nowtimeminute: ' + this.minute);
       
       nowtimeMinute.setMinutes(this.minute);
       nowtimeMinute.setSeconds(0);
@@ -40,9 +39,9 @@ uncertainTime.prototype.distortTime = function () {
       var duration = 60 * durationMins;
       var end = nowtimeMinuteInSeconds + duration;
       
-      console.log('Now:' + nowtime);
-      console.log('Start:' + new Date(nowtimeMinute));
-      console.log('End:' + new Date(end*1000));
+      // console.log('Now:' + nowtime);
+      // console.log('Start:' + new Date(nowtimeMinute));
+      // console.log('End:' + new Date(end*1000));
       
       var uncertainTime = new Date(nowtime); 
       
@@ -68,14 +67,14 @@ function distortFunction(val,start,end) {
   var diff = end - start;
   var val = val - start; 
 
-  console.log('Val:' + val);
-  console.log('Start:' + start);
-  console.log('End:' + end);
-  console.log('Diff:' + diff);
+  // console.log('Val:' + val);
+  // console.log('Start:' + start);
+  // console.log('End:' + end);
+  // console.log('Diff:' + diff);
 
   var result = Math.floor(easing.easeInOutQuad(val,0,diff,diff));
 
-  console.log('Result:' + result);
+  // console.log('Result:' + result);
   result = result + start;
 
   // console.log('Result:' + result);
