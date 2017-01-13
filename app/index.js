@@ -81,6 +81,7 @@ ntps.on('requestUncerainTime',requestUncerainTimeHandler);
 
 function requestUncerainTimeHandler(data) {
   winston.log('info', 'requestUncerainTimeHandler');
+  winston.log('info', uct.getTime());
 }
 
 // utils
