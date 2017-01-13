@@ -38,7 +38,7 @@ app.get('/debug',requestHandlerDebug);
 
 function requestHandlerHome(request, response) {
   response.sendFile( __dirname + '/views/index.html');
-  winston.log('info', 'Serving another Home request *tick tack*.');
+  winston.log('info', 'Serving another Home request to ' + request.ip);
 }
 
 function requestHandlerDebug(request, response) {
@@ -77,14 +77,15 @@ io.on('connection', function(socket){
 
 ntps = new NTPServer(ntpport);
 
-ntps.on('requestUncerainTime',requestUncerainTimeHandler);
-
-function requestUncerainTimeHandler(data) {
-  winston.log('info', 'requestUncerainTimeHandler');
-  winston.log('info', uct.getTime());
+ntps.on('getUncertainTime',getUncertainTimeHandler);
+function getUncertainTimeHandler(msg) {
+  ntps.emit('respondClients', msg, uct.timederrivation );
 }
 
 // utils
 function clearConsole() {
   process.stdout.write('\x1B[2J\x1B[0f');
 }
+
+
+

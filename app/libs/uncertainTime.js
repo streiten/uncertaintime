@@ -17,12 +17,6 @@ function uncertainTime() {
   setInterval(this.distortTime.bind(this),1000);
 }
 
-
-uncertainTime.prototype.getTime = function () {
-  return this.distortTime(); 
-};
-
-
 uncertainTime.prototype.distortTime = function () {
 
       var durationMins = 3;
@@ -63,9 +57,9 @@ uncertainTime.prototype.distortTime = function () {
       uncertainTime.setTime(seconds * 1000);
         
   this.time = uncertainTime;
-  this.timederrivation = (uncertainTime.getTime() - nowtime.getTime())/1000;
-  // console.log(this.timederrivation );
-  return this.uncertainTime;
+  // truncate decimal with | 0 -> makes it 32 bit integer
+  this.timederrivation = ((uncertainTime.getTime() - nowtime.getTime())/1000 ) | 0 ;
+
 };
 
 function distortFunction(val,start,end) {

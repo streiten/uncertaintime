@@ -1,4 +1,3 @@
-
 var winston = require('winston');
 var dgram = require("dgram");
 var UDP = dgram.createSocket("udp4");
@@ -30,8 +29,22 @@ function NTPServer (port) {
   
   UDP.bind(port);
 
-}
+  this.on('respondClients',respondClientsHandler);
 
+  function respondClientsHandler(msg,timederrivation) {
+    
+      var time_standard = msg.readUInt32BE(32);
+
+      winston.log('info', 'timederrivation is ' + timederrivation);
+
+      // adjusting the time 
+      msg.writeUInt32BE(time_standard + timederrivation, msg.length - 16);
+      msg.writeUInt32BE(time_standard + timederrivation, msg.length - 8);
+
+      this.respondClients(msg);
+  }
+
+}
 
 NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
       
@@ -59,22 +72,8 @@ NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
     // request ip = ntp server => recieving msg from ntp server
   } else {
 
-      // find time from message 
       winston.log('info', 'the real NTP responded...');
-
-      var time_standard = msg.readUInt32BE(32);
-
-      this.emit('requestUncerainTime');
-
-      //console.log('The time is off by:' + uct.timederrivation);
-
-      // adjusting the time
-      //msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 16);
-      //msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 8);
-
-      // send the new time to all clients
-      this.respondClients(msg);
-
+      this.emit('getUncertainTime',msg);
     }
 };
 
