@@ -80,7 +80,7 @@ ntps = new NTPServer(ntpport);
 ntps.on('requestUncerainTime',requestUncerainTimeHandler);
 
 function requestUncerainTimeHandler(data) {
-  winston.log('info', 'requestUncerainTimeHandler event emitted and caught');
+  winston.log('info', 'requestUncerainTimeHandler');
 }
 
 // utils

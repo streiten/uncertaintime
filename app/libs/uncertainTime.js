@@ -5,7 +5,7 @@ var util = require('util');
 var path = require('path');
 
 
-function uncertainTime(u) {
+function uncertainTime() {
   this.debug = true;
   // reading in the schedule from file
   var schedulePath = path.join(__dirname,'..', 'schedule.json');
