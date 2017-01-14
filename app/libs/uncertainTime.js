@@ -3,62 +3,45 @@ var later = require('later');
 var easing = require('easing-js');
 var util = require('util');
 var path = require('path');
-
-
+ 
 function uncertainTime() {
   this.debug = true;
   // reading in the schedule from file
+  
   var schedulePath = path.join(__dirname,'..', 'schedule.json');
   var schedule = JSON.parse(fs.readFileSync(schedulePath, 'utf8'));
-  this.schedule = later.schedule(schedule);
-  this.uncertain = false;
-  this.minute = new Date().getMinutes();
+  this.later = later.schedule(schedule);
+
+  if(this.debug) {
+    this.initDebug();
+  }
+
+  this.uncertain = false;  
   // calculating the time every 100ms
-  setInterval(this.distortTime.bind(this),1000);
+  setInterval(this.distortTime.bind(this),100);
 }
 
 uncertainTime.prototype.distortTime = function () {
 
-      var durationMins = 3;
-
-      var nowtime = new Date();
-      var nowtimeInSeconds = Math.floor(nowtime.getTime()/1000);
-      var nowtimeMinute = new Date(nowtime);
-      
-      if(nowtimeMinute.getMinutes() % durationMins == 0) {
-        this.minute = nowtimeMinute.getMinutes();
-      }
-
-      // console.log('nowtimeminute: ' + this.minute);
-      
-      nowtimeMinute.setMinutes(this.minute);
-      nowtimeMinute.setSeconds(0);
-
-      var nowtimeMinuteInSeconds = Math.floor(nowtimeMinute.getTime()/1000);
-      
-      var duration = 60 * durationMins;
-      var end = nowtimeMinuteInSeconds + duration;
-      
-      // console.log('Now:' + nowtime);
-      // console.log('Start:' + new Date(nowtimeMinute));
-      // console.log('End:' + new Date(end*1000));
-      
+      var nowtime = new Date(); 
       var uncertainTime = new Date(nowtime); 
+      var timeInSeconds = uncertainTime.getTime()/1000;
       
-      if(this.schedule.isValid(uncertainTime) || this.debug ){
-        //console.log('NowTime in seconds:' + ( nowtimeInSeconds));
-        var seconds = distortFunction(nowtimeInSeconds,nowtimeMinuteInSeconds,end);
+      if(this.debug || this.uncertain ){
+
+        var timeInSeconds = distortFunction(uncertainTime.getTime()/1000,this.start.getTime()/1000,this.end.getTime()/1000);
 
         this.uncertain = true;
         //console.log("It's the time again:" + uncertainTime );
       } else {
         this.uncertain = false;
       }
-      uncertainTime.setTime(seconds * 1000);
-        
-  this.time = uncertainTime;
-  // truncate decimal with | 0 -> makes it 32 bit integer
-  this.timederrivation = ((uncertainTime.getTime() - nowtime.getTime())/1000 ) | 0 ;
+
+      uncertainTime.setTime(timeInSeconds * 1000);
+      this.time = uncertainTime;
+
+      // truncate decimal with | 0 -> makes it 32 bit integer
+      this.timederrivation = ((uncertainTime.getTime() - nowtime.getTime())/1000 ) | 0 ;
 
 };
 
@@ -80,6 +63,26 @@ function distortFunction(val,start,end) {
   // console.log('Result:' + result);
 
   return result; 
+}
+
+uncertainTime.prototype.initDebug = function () {
+    // set initial start end
+    var debugNow = new Date();
+    if(debugNow.getMinutes() % 2 == 0){
+      this.start = new Date(debugNow.setSeconds(0));
+      this.end = new Date(this.start.getTime() + 120000); 
+    } else {
+      this.start =  new Date((new Date(debugNow.setSeconds(0))).getTime() - 60000);
+      this.end = new Date(this.start.getTime() + 120000); 
+    }
+
+    // set start end every 2 mins 
+    debugSchedule = later.parse.text('every 2 min');
+    t = later.setInterval(setStartEnd.bind(this), debugSchedule);
+    function setStartEnd(){
+      this.start = new Date();
+      this.end = new Date(this.start.getTime() + 120000); 
+    };
 }
 
 module.exports = uncertainTime;

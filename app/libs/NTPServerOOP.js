@@ -13,7 +13,6 @@ function NTPServer (port) {
 
   this.client_pool = [];
   this.time_server_ip = '';
-  this.prev_checktime = 0;
   this.port = port;
 
   this.refreshNTPServerIp();
@@ -53,7 +52,7 @@ NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
     // request ip != ntp server => message from client
     if (rinfo.address != this.time_server_ip) { 
 
-      winston.log('info', 'client ' + rinfo.address + 'sent NTP datagram...' );
+      winston.log('info', 'client ' + rinfo.address + ' sent NTP packet...' );
       
       this.client_pool.push({
         address: rinfo.address,
