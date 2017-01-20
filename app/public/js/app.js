@@ -18,22 +18,24 @@ setInterval(getUncertime,100);
 
 function updateClocks( msg ) {
   
-  var uncertainTime = new Date(msg.value);
+  var uncertainTime = moment(msg.value);
+  var timeformat = "H:mm:ss";
   var uctString = document.getElementById("uncertain-time");
-  uctString.innerHTML = uncertainTime.toLocaleTimeString();
   
-  var time = new Date();
-  document.getElementById("real-time").innerHTML = time.toLocaleTimeString();
+  uctString.innerHTML = uncertainTime.format(timeformat); 
+  
+  var time = moment();
+  document.getElementById("real-time").innerHTML = time.format(timeformat);
 
   switch(msg.unit) {
     case 's':
-      setPieClock('uncertainty-time-pie-circle', uncertainTime.getSeconds() );
-      setPieClock('real-time-pie-circle', time.getSeconds() );
+      setPieClock('uncertainty-time-pie-circle', uncertainTime.seconds() );
+      setPieClock('real-time-pie-circle', time.seconds() );
     break; 
     
     case 'm':
-      setPieClock('uncertainty-time-pie-circle', uncertainTime.getMinutes() );
-      setPieClock('real-time-pie-circle', time.getMinutes() );
+      setPieClock('uncertainty-time-pie-circle', uncertainTime.minutes() );
+      setPieClock('real-time-pie-circle', time.minutes() );
     break;
   }
 
