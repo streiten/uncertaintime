@@ -11,25 +11,31 @@ function uncertainTime() {
   // reading in the schedule from file
   winston.log('info', "Init schedule... ");
 
-  var scheduleFile = path.join(__dirname,'..', 'schedule.json');
-  
-  this.schedule = JSON.parse(fs.readFileSync(scheduleFile, 'utf8'));
-  this.initSchedule();
-
-  winston.log('info', "Current/Next Period Start: " + this.start.format());
-  winston.log('info', "Current/Next Period End: " + this.end.format()); 
-  winston.log('info', "Period will last about " + this.end.from(this.start,true)); 
-
-  this.uncertainTimePeriodUpdated = true;
-
   this.debug = false;
-  if(this.debug) {
-    this.initDebug(2);
-  }
 
+  if(this.debug) {
+   
+    this.initDebug(2);
+  
+  } else {
+
+    // var scheduleFile = path.join(__dirname,'..', 'schedule.json');
+    // this.schedule = JSON.parse(fs.readFileSync(scheduleFile, 'utf8'));
+    // this.initSchedule();
+
+    this.start =  moment().startOf('minute');
+    this.end = this.start.clone().add(1, 'm'); 
+
+    winston.log('info', "Current/Next Period Start: " + this.start.format());
+    winston.log('info', "Current/Next Period End: " + this.end.format()); 
+    winston.log('info', "Period will last about " + this.end.from(this.start,true)); 
+
+  }
+  
+  this.refreshStartEnd = false;
   this.uncertain = false;  
   this.timederrivation = 0;
-  
+
   // calculating the time every 100ms
   setInterval(this.updateTime.bind(this),100);
 
@@ -39,7 +45,9 @@ uncertainTime.prototype.updateTime = function () {
 
       var realTime = moment();
 
-      this.updateCurrentPeriod();
+      if(!this.debug) {
+        this.checkSchedule();
+      }
 
       if(this.debug ||  this.uncertain){
 
@@ -60,52 +68,53 @@ uncertainTime.prototype.updateTime = function () {
       }
 };
 
-uncertainTime.prototype.updateCurrentPeriod = function (){
+uncertainTime.prototype.checkSchedule = function (){
 
   if(moment().isBetween(this.start, this.end)) {
   
-    if(this.uncertainTimePeriodUpdated) {
+    if(!this.uncertain) {
       winston.log('info', "A uncertainty period started.");
-    } else {
-
-    }
-      this.uncertainTimePeriodUpdated = false;
-
-    this.uncertain = true;
+      this.uncertain = true;
+    } 
   
   } else {
     
-    winston.log('info', "The uncertainty period ended.");
-    this.uncertain = false;
+    if(this.uncertain) {
+      winston.log('info', "The uncertainty period ended.");
+      this.refreshStartEnd = true;
+      this.uncertain = false;
+    }
 
-    if(!this.uncertainTimePeriodUpdated) {
+    if(this.refreshStartEnd) {
 
-      for (var i = this.schedule.uncertainTimes.length - 1; i >= 0; i--) {
-        var now = moment();
-        // end in past, remove item from schedules array 
-        var isPast = this.schedule.uncertainTimes[i].end.isBefore(now);
-        if(isPast) {
-          this.schedule.uncertainTimes.splice(i,1);
-        }
-      }
+      this.initDailyRandomHour();
+
+      // for (var i = this.schedule.uncertainTimes.length - 1; i >= 0; i--) {
+      //   var now = moment();
+      //   // end in past, remove item from schedules array 
+      //   var isPast = this.schedule.uncertainTimes[i].end.isBefore(now);
+      //   if(isPast) {
+      //     this.schedule.uncertainTimes.splice(i,1);
+      //   }
+      // }
       
-      // let's assume 
-      // - no overlaps in schedule definition 
-      // - chronolgical order 
-      // so after removing past ones the first should be the current or next one
-      if(this.schedule.uncertainTimes.length > 0) {
-        this.start = this.schedule.uncertainTimes[0].start;
-        this.end = this.schedule.uncertainTimes[0].end;
-      } else {
-        // uh no uncertain period coming up...
-        throw new Error('Err... no valid uncertain period defined...');
-      }
+      // // let's assume 
+      // // - no overlaps in schedule definition 
+      // // - chronolgical order 
+      // // so after removing past ones the first should be the current or next one
+      // if(this.schedule.uncertainTimes.length > 0) {
+      //   this.start = this.schedule.uncertainTimes[0].start;
+      //   this.end = this.schedule.uncertainTimes[0].end;
+      // } else {
+      //   // uh no uncertain period coming up...
+      //   throw new Error('Err... no valid uncertain period defined...');
+      // }
 
       winston.log('info', "Next Period Start: " + this.start.format());
       winston.log('info', "Next Period End: " + this.end.format()); 
       winston.log('info', "Period will last about " + this.end.from(this.start,true)); 
 
-      this.uncertainTimePeriodUpdated = true;
+      this.refreshStartEnd = false;
 
     }
 
@@ -121,8 +130,8 @@ uncertainTime.prototype.initDebug = function(duration) {
     this.start =  moment().startOf('minute').subtract(subtractVal,'m');
     this.end = this.start.clone().add(duration, 'm'); 
 
-    console.log('Start',this.start);
-    console.log('End',this.end);
+    winston.log('info', "Debug Start: " + this.start.format());
+    winston.log('info', "Debug End: " + this.end.format()); 
 
     // set start end every 2 mins 
     debugSchedule = later.parse.recur().every(duration).minute();
@@ -130,8 +139,8 @@ uncertainTime.prototype.initDebug = function(duration) {
     function setStartEnd(){
       this.start = moment().startOf('minute');
       this.end = moment().startOf('minute').add(duration, 'm'); 
-        console.log('Start',this.start);
-        console.log('End',this.end);
+        winston.log('info', "Debug Start: " + this.start.format());
+        winston.log('info', "Debug End: " + this.end.format()); 
     };
 
 };
@@ -182,5 +191,13 @@ uncertainTime.prototype.initSchedule = function (){
 
 };
 
+uncertainTime.prototype.initDailyRandomHour = function (){
+    this.start =  moment().startOf('hour').hour(randomInt(6,23)).add(1,'d');
+    this.end = this.start.clone().add(1, 'h'); 
+};
+
+function randomInt (low, high) {
+    return Math.floor(Math.random() * (high - low) + low);
+}
 
 module.exports = uncertainTime;
