@@ -8,6 +8,12 @@ socket.on('time', function(msg){
   updateClocks(msg);
 });
 
+socket.on('period', function(msg){
+  document.getElementById("period-start").innerHTML = msg.start;
+  document.getElementById("period-end").innerHTML = msg.end;
+});
+
+  socket.emit('getperiod');
 
 // emit time to web clients every secont
 function getUncertime() { 

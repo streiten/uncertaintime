@@ -1,144 +1,117 @@
-
 var winston = require('winston');
 var dgram = require("dgram");
 var UDP = dgram.createSocket("udp4");
 var dns = require("dns");
+var moment = require("moment");
+
 
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 util.inherits(NTPServer, EventEmitter);
 
-var uncertainTime = require('./uncertainTime.js');
-
 function NTPServer (port) {
 
-  var uct = new uncertainTime('m');
+  this.time_server_domain = "pool.ntp.org";
 
-  var time_server_domain = "pool.ntp.org";
-
-  var client_pool = [];
-  var time_server_ip = '';
-  var prev_checktime = 0;
-  var ttl = 10000;
-
+  this.client_pool = [];
+  this.time_server_ip = '';
   this.port = port;
 
-  UDP.on("message", function(msg, rinfo) {
+  this.refreshNTPServerIp();
+  setInterval(this.refreshNTPServerIp.bind(this),1000 * 60 * 60 * 3);
 
-// ---->>> serverMessageHandler <<<-----
+  // actually should wait for refreshNTPServerIp
+  UDP.on("message",this.UDPMessageHandler.bind(this));
+
+  UDP.on("listening", function() {
+    var address = UDP.address();
+    winston.log('info', "Uncertain NTP server listening at " + address.address + " on " + address.port);
+  });
+  
+  UDP.bind(port);
+
+  this.on('respondClients',respondClientsHandler);
+
+  function respondClientsHandler(msg,timederrivation) {
     
-    var serverMessageHandler = function() {
+      var time_standard = msg.readUInt32BE(32);
 
-      console.log(new Date());
-      console.log(["  message from ", rinfo.address, ":", rinfo.port].join(''));
+      winston.log('info', 'timederrivation is ' + timederrivation);
+
+      // adjusting the time 
+      msg.writeUInt32BE(time_standard + timederrivation, msg.length - 16);
+      msg.writeUInt32BE(time_standard + timederrivation, msg.length - 8);
+
+      this.respondClients(msg);
+  }
+
+}
+
+NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
+      
+    winston.log('info', ["UDP message from ", rinfo.address, ":", rinfo.port].join(''));
 
     // request ip != ntp server => message from client
-    if (rinfo.address != time_server_ip) { //time sync request from client
+    if (rinfo.address != this.time_server_ip) { 
 
-      console.log(rinfo.address + ' is different with ' + time_server_ip);
+      winston.log('info', 'client ' + rinfo.address + ' sent NTP packet...' );
       
-      // add client to client list
-      client_pool.push({
+      this.client_pool.push({
         address: rinfo.address,
         port: rinfo.port
       });
-      
+
       // pass the ntp packet from client on to the current NTP Server
       // move to method 'getRealTime'
-      UDP.send(msg, 0, msg.length, 123, time_server_ip, function(err, bytes) {
+      var UDPsendCallback = function(err, bytes) {
         if (err) throw err;
-        console.log(new Date());
-        console.log('  ask to sent to ' + time_server_domain);
-      });
+        winston.log('info','passing the message on to real NTP...');
+      };
+
+      UDP.send(msg, 0, msg.length, 123, this.time_server_ip, UDPsendCallback.bind(this));
 
     // request ip = ntp server => recieving msg from ntp server
   } else {
 
-      // find time from message 
-      var time_standard = msg.readUInt32BE(32);
+      winston.log('info', 'the real NTP responded...');
+      this.emit('getUncertainTime',msg);
+    }
+};
 
-      // this.emit('requestUncertime');
-      // ... send time to clients on event the following code moved to a function 
+NTPServer.prototype.refreshNTPServerIp = function (){
+    // get a timeserver
 
-      console.log('The time is off by:' + uct.timederrivation);
+    var dnsLookupCallback = function(err, ip, ipv) {
 
-      // adjusting the time
-      msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 16);
-      msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 8);
+      if (err) {
+        winston.log('error', 'Error in DNS Lookup!');
+        winston.log('error',err);
+        return;
+      }
 
-      // send the new time to all clients
-      while (client_pool.length != 0) { 
+      this.time_server_ip = ip;
+      winston.log('info', 'New NTP Server IP is: '+ this.time_server_ip);
+      };
+
+      dns.lookup(this.time_server_domain, 4, dnsLookupCallback.bind(this));
+};
+
+
+NTPServer.prototype.respondClients = function(msg){
+      while (this.client_pool.length != 0) { 
 
         (function(to_ip, to_port) {
           // send the message to this client
           UDP.send(msg, 0, msg.length, to_port, to_ip, function(err, bytes) {
             if (err) throw err;
-            console.log(new Date());
-            console.log('  response to ' + to_ip + ':' + to_port);
+            winston.log('info','responding to ' + to_ip + ':' + to_port);
           });
-        })(client_pool[0].address, client_pool[0].port);
+        })(this.client_pool[0].address, this.client_pool[0].port);
         
         // removing the client from clients list
-        client_pool.splice(0, 1);
+        this.client_pool.splice(0, 1);
 
       }
-    }
-  };
-
-// ---->>> serverMessageHandler END <<<-----
-  
-  ///// only if ttl expired --> get new NTP Server
-  if (prev_checktime + ttl < (new Date()).getTime()) { //TTL 3 hours
-
-    console.log('\n\nTTL Expired '+prev_checktime+' '+(new Date()).getTime()+'. Relookup ' + time_server_domain);
-    
-    // get a timeserver
-    dns.lookup(time_server_domain, 4, function(err, ip, ipv) {
-
-      if (err) {
-        console.log('Error in DNS Lookup');
-        console.log(err);
-        return
-      }
-
-      time_server_ip = ip;
-      
-      // for ttl check
-      prev_checktime = (new Date()).getTime();
-
-      console.log('Prev Checktime is '+prev_checktime);
-      console.log('Got ip address: '+ ip);
-      
-      // handle the request
-      serverMessageHandler();
-    });
-
-  } else {
-    
-    serverMessageHandler();
-  }
-
-});
-
-  // ?
-  UDP.on("listening", function() {
-    var address = UDP.address();
-    console.log("NTP server listening at " + address.address + " on " + address.port);
-  });
-
-  UDP.bind(port);
-}
-
-NTPServer.prototype.getNewNTPServerIp = function (){
-
-}
-
-NTPServer.prototype.getNTPTime = function (){
-  
-}
-
-NTPServer.prototype.getUncertainTime = function (){
-  
-}
+};
 
 module.exports = NTPServer;
