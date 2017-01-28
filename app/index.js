@@ -6,6 +6,8 @@ var io = require('socket.io')(http);
 
 var uncertainTime = require('./libs/uncertainTime.js');
 var NTPServer = require('./libs/NTPServer.js');
+var uncertainBot = require('./libs/uncertainBot.js');
+
 
 if(process.env.NODE_ENV == "development") {
   winston.level = 'debug';
@@ -26,6 +28,26 @@ var httpport = 8080;
  */
 
 var uct = new uncertainTime();
+var uBot = new uncertainBot();
+
+
+uct.on('uncertainPeriodChanged',uncertainPeriodChangedHandler);
+function uncertainPeriodChangedHandler (msg) {
+  
+  switch(msg) {
+    case 'start':
+      var text = "The uncertain time started.";
+    break;
+
+    case 'end':
+      var text = "The uncertainty time ended.";
+    break;
+  }
+
+  // uBot.tweet(text);
+  winston.log('info', text);
+}
+
 
 /**
  * The Webserving
@@ -96,6 +118,5 @@ function getUncertainTimeHandler(msg) {
 function clearConsole() {
   process.stdout.write('\x1B[2J\x1B[0f');
 }
-
 
 

@@ -6,6 +6,9 @@ var util = require('util');
 var path = require('path');
 var moment = require("moment");
 
+var EventEmitter = require('events').EventEmitter;
+util.inherits(uncertainTime, EventEmitter);
+
 function uncertainTime() {
   
   // reading in the schedule from file
@@ -73,14 +76,14 @@ uncertainTime.prototype.checkSchedule = function (){
   if(moment().isBetween(this.start, this.end)) {
   
     if(!this.uncertain) {
-      winston.log('info', "A uncertainty period started.");
+      this.emit('uncertainPeriodChanged','start');
       this.uncertain = true;
     } 
   
   } else {
     
     if(this.uncertain) {
-      winston.log('info', "The uncertainty period ended.");
+      this.emit('uncertainPeriodChanged','end');
       this.refreshStartEnd = true;
       this.uncertain = false;
     }
@@ -174,7 +177,6 @@ uncertainTime.prototype.initSchedule = function (){
     if(isPast) {
       this.schedule.uncertainTimes.splice(i,1);
     }
-
   }
   
   // let's assume 
