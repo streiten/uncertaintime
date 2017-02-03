@@ -38,6 +38,7 @@ function uncertainTime() {
   this.refreshStartEnd = false;
   this.uncertain = false;  
   this.timederrivation = 0;
+  this.distortFunction = 0;
 
   // calculating the time every 100ms
   setInterval(this.updateTime.bind(this),100);
@@ -54,7 +55,7 @@ uncertainTime.prototype.updateTime = function () {
 
       if(this.debug ||  this.uncertain){
 
-        this.time = distortFunction(realTime,this.start,this.end);
+        this.time = distortTime(realTime,this.start,this.end,this.distortFunction);
         this.timederrivation = Math.round(this.time.diff(realTime) / 1000);
 
         // console.log('Start',this.start);
@@ -77,6 +78,7 @@ uncertainTime.prototype.checkSchedule = function (){
   
     if(!this.uncertain) {
       this.emit('uncertainPeriodChanged','start');
+      
       this.uncertain = true;
     } 
   
@@ -84,13 +86,14 @@ uncertainTime.prototype.checkSchedule = function (){
     
     if(this.uncertain) {
       this.emit('uncertainPeriodChanged','end');
+      
       this.refreshStartEnd = true;
       this.uncertain = false;
     }
 
     if(this.refreshStartEnd) {
 
-      this.initDailyRandomHour();
+      this.generateUncertainPeriod();
 
       // for (var i = this.schedule.uncertainTimes.length - 1; i >= 0; i--) {
       //   var now = moment();
@@ -149,7 +152,7 @@ uncertainTime.prototype.initDebug = function(duration) {
 };
 
 
-function distortFunction(val,start,end) {
+function distortTime(val,start,end,type) {
   
   var diff = end.unix() - start.unix();
   var val = val.unix() - start.unix(); 
@@ -159,7 +162,21 @@ function distortFunction(val,start,end) {
   // console.log('End:' + end);
   // console.log('Diff:' + diff);
 
-  var result = easing.easeInOutQuad(val,0,diff,diff);  
+  switch(type) {
+    case 0:
+      var result = easing.easeInOutBack(val,0,diff,diff);
+    break; 
+    
+    case 1:
+      var result = 0;
+    break; 
+
+    case 3:
+      var result = easing.easeInOutExpo(val,0,diff,diff);
+    break; 
+
+  }
+
   return moment(result * 1000 + start);
 
 }
@@ -193,9 +210,21 @@ uncertainTime.prototype.initSchedule = function (){
 
 };
 
-uncertainTime.prototype.initDailyRandomHour = function (){
-    this.start =  moment().startOf('hour').hour(randomInt(6,23)).add(1,'d');
-    this.end = this.start.clone().add(1, 'h'); 
+uncertainTime.prototype.generateUncertainPeriod = function (){
+    
+    // new duration between 5 mins and 5 hours 
+    var durationMins = randomInt(5,300);
+    // var durationMins = randomInt(1,5);
+
+    // how long till next start between 6 and 24 hours
+    var delayMins = randomInt( 6 * 60 , 24 * 60);
+    // var delayMins = randomInt(1 , 5);
+
+    this.start =  moment(this.end).add(delayMins,'m');
+    this.end = this.start.clone().add(durationMins, 'm'); 
+
+    this.distortFunction = randomInt(0,2);
+
 };
 
 function randomInt (low, high) {

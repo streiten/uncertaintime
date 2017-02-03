@@ -36,11 +36,26 @@ function uncertainPeriodChangedHandler (msg) {
   
   switch(msg) {
     case 'start':
-      var text = "The uncertain time started.";
+      var text = "A new uncertain period started.";
     break;
 
     case 'end':
-      var text = "The uncertainty time ended.";
+      var text = "The uncertaint time ended after about ";
+      text += this.end.from(this.start,true) + '. What ';
+
+      switch(uct.distortFunction) {
+        case 0: 
+          text += 'a crazy one.';
+        break;
+        
+        case 1:
+          text += 'a freeze.';
+        break;
+
+        case 2: 
+          text += 'smooth operator.';
+        break;
+      }
     break;
   }
 
