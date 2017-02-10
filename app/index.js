@@ -16,7 +16,7 @@ if(process.env.NODE_ENV == "development") {
 }
 
 winston.add(winston.transports.File, { filename: 'uct.log',  json: false });
-winston.log('info', 'Server started...');
+winston.log('info', 'Server started... in environment: ' + process.env.NODE_ENV);
 
 // NTP Port 
 // port mapped by ufw to privileged ports 123 and 80 in production  
@@ -59,7 +59,10 @@ function uncertainPeriodChangedHandler (msg) {
     break;
   }
 
-  // uBot.tweet(text);
+  if(process.env.NODE_ENV == "production") {
+    uBot.tweet(text);
+  }
+  
   winston.log('info', text);
 }
 
@@ -76,8 +79,6 @@ app.get('/debug',requestHandlerDebug);
 function requestHandlerHome(request, response) {
   response.sendFile( __dirname + '/views/index.html');
   winston.log('info', 'Serving another Home request ' + request.hostname + ' to ' + request.ip );
-  winston.log('info', '...subdomains: ' + request.subdomains );
-
 }
 
 function requestHandlerDebug(request, response) {
@@ -98,7 +99,6 @@ io.on('connection', function(socket){
   socket.on('gettime', function(){
     // winston.log('info', 'Websocket time requested... and served...');
     io.emit('time', { 
-      unit : 's',
       value : uct.time,
       uct: uct.uncertain
     });

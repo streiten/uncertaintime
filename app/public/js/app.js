@@ -1,61 +1,79 @@
-var socket = io();
+ (function(window){
 
-socket.on('welcome', function(msg){
-  console.log(msg);
-});
+    uctApp.prototype.constructor = uctApp;
+    uctApp.prototype = {
+        uctime: moment(),
+        uncertain: false
+    };
 
-socket.on('time', function(msg){
-  updateClocks(msg);
-});
+    function uctApp(){
 
-socket.on('period', function(msg){
-  document.getElementById("period-start").innerHTML = msg.start;
-  document.getElementById("period-end").innerHTML = msg.end;
-});
+      ref = this;
+      this.socket = io();
 
-  socket.emit('getperiod');
+      this.socket.on('welcome', this.welcomeHandler);
+      this.socket.on('time', this.timeHandler);
+      this.socket.on('period', this.periodHandler);
 
-// emit time to web clients every secont
-function getUncertime() { 
-  socket.emit('gettime');
-}
-setInterval(getUncertime,100);
+      setInterval(this.getUncertime.bind(this),100);
 
+    }
 
-function updateClocks( msg ) {
-  
-  var uncertainTime = moment(msg.value);
-  var timeformat = "H:mm:ss";
-  var uctString = document.getElementById("uncertain-time");
-  
-  uctString.innerHTML = uncertainTime.format(timeformat); 
-  
-  var time = moment();
-  document.getElementById("real-time").innerHTML = time.format(timeformat);
+    uctApp.prototype.init = function(){
+    };
 
-  switch(msg.unit) {
-    case 's':
-      setPieClock('uncertainty-time-pie-circle', uncertainTime.seconds() );
-      setPieClock('real-time-pie-circle', time.seconds() );
-    break; 
+    uctApp.prototype.welcomeHandler = function(msg){
+      console.log(msg);
+    };
+
+    uctApp.prototype.timeHandler = function(msg){
+      ref.uctime = moment(msg.value);
+      ref.uncertain = msg.uct; 
+
+      ref.updateClock('#uncertain-time-string');
+
+    };
+
+    uctApp.prototype.periodHandler = function(msg){
+      document.getElementById("period-start").innerHTML = msg.start;
+      document.getElementById("period-end").innerHTML = msg.end;
+    };
     
-    case 'm':
-      setPieClock('uncertainty-time-pie-circle', uncertainTime.minutes() );
-      setPieClock('real-time-pie-circle', time.minutes() );
-    break;
-  }
+    uctApp.prototype.getUncertime = function(){
+      this.socket.emit('gettime');
+    };
 
-  if (msg.uct) {
-    //console.log("the time");
-    uctString.className = 'active';
-  } else {
-    console.log("not the time");
-    uctString.className = '';
-  }
+    uctApp.prototype.getPeriod = function(){
+      this.socket.emit('getperiod');
+    };
 
-} 
+    uctApp.prototype.updateClock = function (sel) {
+        
+        var timeformat = "H:mm:ss";
+        $(sel).html(this.uctime.format(timeformat)); 
+          
+        if (this.uct) {
+          console.log("the time is on!");
+          $(sel).addClass('active');
+        } else {
+          console.log("not the time");
+          $(sel).removeClass('active');
+        }
 
-function setPieClock( selector , value ) {
-  var done = value / 60 * 100;
-  document.getElementById(selector).style.strokeDasharray = done + " 100";
-}
+        // debug
+        if($('body').hasClass('debug')){
+          document.getElementById("real-time-string").innerHTML = moment().format(timeformat);
+          setPieClock('uncertainty-time-pie-circle', this.uctime.seconds() );
+          setPieClock('real-time-pie-circle', moment().seconds() );
+        }
+    };
+
+    // debug purposes
+    function setPieClock ( sel , value ) {
+      var done = value / 60 * 100;
+      document.getElementById(sel).style.strokeDasharray = done + " 100";
+    };
+
+    window.uctApp = uctApp;
+
+}(window));

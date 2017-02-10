@@ -1,50 +1,47 @@
-body, html {
-  height: 100%; 
-  width: 100%;
-}
-
 body {
-  margin: 0; 
-  font-family: 'Raleway', sans-serif;
-}
-
-.home .hero {
-  text-align: center;
-}
-
-.home .page-wrap {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.home h1 {
-  margin: 0;
-  font-size: 5vw;
-  font-weight: 200;
-}
-
-.home .hero p {
-  margin: 0;
-}
-
-
-.uncertainty {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
-  min-height: 100vh;
-  font-size: 10vw;
+  margin: 5vw; 
   font-family: 'Arial Black', sans-serif;
 }
 
+.debug-wrap {
+  font-family: 'Helvetica',sans-serif;
+  color: red; 
+  font-size: 12px;
+  position: absolute;
+  right: 50px;
+  top: 50px;
+}
+
+h1 {
+  font-size: 5vw;
+  font-weight: 200;
+  margin-bottom: 0;
+}
+
+p {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+}
+
+.twitter {
+  font-size: 2em;
+  position: absolute;
+  right: 5vw;
+  top: 5vw;
+}
+
+.uncertainty {
+  font-size: 10vw;
+  margin-top: -40px;
+}
+
+
+// debug
 .pie {
   width: 7vw; height: 7vw;
   transform: rotate(-90deg);
   border-radius: 50%;
+  margin-top: 20px;
 }
 
 .pie circle {
