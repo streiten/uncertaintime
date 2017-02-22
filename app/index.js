@@ -121,10 +121,6 @@ io.on('connection', function(socket){
 
 ntps = new NTPServer(ntpport);
 
-ntps.on('getUncertainTime',getUncertainTimeHandler);
-function getUncertainTimeHandler(msg) {
-  ntps.emit('respondClients', msg, uct.timederrivation );
-}
 
 // utils
 function clearConsole() {

@@ -24,4 +24,4 @@ uncertainBot.prototype.tweet = function (tweetTxt) {
     });
 };
 
-module.exports = uncertainBot;
+module.exports = new uncertainBot();
