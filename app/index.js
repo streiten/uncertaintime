@@ -4,7 +4,7 @@ var winston = require('winston');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var uncertainTime = require('./libs/uncertainTime.js');
+var uct = require('./libs/uncertainTime.js');
 var NTPServer = require('./libs/NTPServer.js');
 var uncertainBot = require('./libs/uncertainBot.js');
 
@@ -26,9 +26,6 @@ var httpport = 8080;
 /**
  * The Uncertime
  */
-
-var uct = new uncertainTime();
-var uBot = new uncertainBot();
 
 
 uct.on('uncertainPeriodChanged',uncertainPeriodChangedHandler);

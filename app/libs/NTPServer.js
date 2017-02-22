@@ -30,21 +30,6 @@ function NTPServer (port) {
   
   UDP.bind(port);
 
-  this.on('respondClients',respondClientsHandler);
-
-  function respondClientsHandler(msg,timederrivation) {
-    
-      var time_standard = msg.readUInt32BE(32);
-
-      winston.log('info', 'timederrivation is ' + timederrivation);
-
-      // adjusting the time 
-      msg.writeUInt32BE(time_standard + timederrivation, msg.length - 16);
-      msg.writeUInt32BE(time_standard + timederrivation, msg.length - 8);
-
-      this.respondClients(msg);
-  }
-
 }
 
 NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
@@ -74,7 +59,16 @@ NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
   } else {
 
       winston.log('info', 'the real NTP responded...');
-      this.emit('getUncertainTime',msg);
+      
+      var time_standard = msg.readUInt32BE(32);
+
+      winston.log('info', 'timederrivation is ' + uct.timederrivation);
+
+      // adjusting the time 
+      msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 16);
+      msg.writeUInt32BE(time_standard + uct.timederrivation, msg.length - 8);
+
+      this.respondClients(msg);
     }
 };
 
