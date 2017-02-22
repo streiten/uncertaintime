@@ -6,7 +6,7 @@ var io = require('socket.io')(http);
 
 var uct = require( __dirname + '/libs/uncertainTime.js');
 var NTPServer = require('./libs/NTPServer.js');
-var uncertainBot = require('./libs/uncertainBot.js');
+var uBot = require('./libs/uncertainBot.js');
 
 
 if(process.env.NODE_ENV == "development") {
