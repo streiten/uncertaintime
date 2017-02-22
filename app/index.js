@@ -4,7 +4,7 @@ var winston = require('winston');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var uct = require('./libs/uncertainTime.js');
+var uct = require( __dirname + '/libs/uncertainTime.js');
 var NTPServer = require('./libs/NTPServer.js');
 var uncertainBot = require('./libs/uncertainBot.js');
 
@@ -120,7 +120,6 @@ io.on('connection', function(socket){
  */
 
 ntps = new NTPServer(ntpport);
-
 
 // utils
 function clearConsole() {
