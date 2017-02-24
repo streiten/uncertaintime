@@ -164,7 +164,7 @@ function distortTime(val,start,end,type) {
 
   switch(type) {
     case 0:
-      var result = easing.easeInOutBack(val,0,diff,diff);
+      var result = easing.easeInOutQuart(val,0,diff,diff);
     break; 
     
     case 1:
