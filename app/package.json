@@ -15,7 +15,8 @@
   },
   "devDependencies": {
     "easing-js": "^1.0.1",
-    "later": "^1.2.0"
+    "later": "^1.2.0",
+    "nodemon": "^1.11.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

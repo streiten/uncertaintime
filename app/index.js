@@ -23,6 +23,10 @@ winston.log('info', 'Server started... in environment: ' + process.env.NODE_ENV)
 var ntpport = 1234; 
 var httpport = 8080;
 
+debugger
+
+
+
 /**
  * The Uncertime
  */
