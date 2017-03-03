@@ -1,12 +1,15 @@
 # Uncertain Time
+Questioning authority of time.  
+Uncertain time is a basic NTP Server messing with time. 
 
-Questionig the authority of Time.
-Uncertain Time technically is a  NTP Server messing with time. 
-
-## Setup
-
+## Requirements
 A public IP and port 123 pre-routed to port 1234 for accepting and responding to NTP datagrams is required.
 
-Twitter App Keys defined in twitter_config.js  
+For ufw in /etc/ufw/before.rules that looks like 
 
-Run with PM2 or similar.
+```
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+-A PREROUTING -p udp --dport 123 -j REDIRECT --to-port 1234
+COMMIT
+
