@@ -1,4 +1,4 @@
- (function(window){
+(function(window){
 
     uctApp.prototype.constructor = uctApp;
     uctApp.prototype = {
@@ -53,10 +53,10 @@
         $(sel).html(this.uctime.format(timeformat)); 
           
         if (this.uct) {
-          console.log("the time is on!");
+          //console.log("the time is on!");
           $(sel).addClass('active');
         } else {
-          console.log("not the time");
+          //console.log("not the time");
           $(sel).removeClass('active');
         }
 
