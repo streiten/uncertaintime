@@ -10,8 +10,7 @@
 
       // ticking favicon
       document.head || (document.head = document.getElementsByTagName('head')[0]);
-      var favurls  = [ '/img/white.ico','/img/black.ico' ];
-      this.initFaviconAnimation(favurls);
+      this.faviconSrcs  = [ '/img/white.ico','/img/black.ico' ];
 
       ref = this;
       this.socket = io();
@@ -56,12 +55,22 @@
         
         var timeformat = "H:mm:ss";
         $(sel).html(this.uctime.format(timeformat)); 
-          
+
+        if(this.uctime.second() % 2) {
+          if(this.secChanged){
+            this.secChanged = 0;
+            this.toggleFavicon(this.faviconSrcs[this.secChanged]);
+          }
+        } else {
+          if(!this.secChanged){
+            this.secChanged = 1;
+            this.toggleFavicon(this.faviconSrcs[this.secChanged]);
+          }
+        }
+
         if (this.uct) {
-          //console.log("the time is on!");
           $(sel).addClass('active');
         } else {
-          //console.log("not the time");
           $(sel).removeClass('active');
         }
 
@@ -72,22 +81,6 @@
           setPieClock('real-time-pie-circle', moment().seconds() );
         }
     };
-
-    uctApp.prototype.initFaviconAnimation = function(srcs) {
-      
-      setInterval(function(){
-        if(this.toggleFaviconFlag) {
-          this.toggleFaviconFlag = 0;
-        } else {
-          this.toggleFaviconFlag = 1;
-        }
-
-        this.toggleFavicon(srcs[this.toggleFaviconFlag]);
-
-      }.bind(this),1000);
-
-    };
-
 
     uctApp.prototype.toggleFavicon = function(src) {
      var link = document.createElement('link'),
