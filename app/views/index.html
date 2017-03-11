@@ -70,6 +70,10 @@
       $('.overlay').removeClass('overlay-open');
     });
 
+    $('.overlay a').bind('click',function(e){
+      e.stopPropagation();
+    });
+
   });
 </script>
 
