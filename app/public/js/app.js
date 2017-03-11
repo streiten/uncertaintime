@@ -8,6 +8,11 @@
 
     function uctApp(){
 
+      // ticking favicon
+      document.head || (document.head = document.getElementsByTagName('head')[0]);
+      var favurls  = [ '/img/white.ico','/img/black.ico' ];
+      this.initFaviconAnimation(favurls);
+
       ref = this;
       this.socket = io();
 
@@ -66,6 +71,34 @@
           setPieClock('uncertainty-time-pie-circle', this.uctime.seconds() );
           setPieClock('real-time-pie-circle', moment().seconds() );
         }
+    };
+
+    uctApp.prototype.initFaviconAnimation = function(srcs) {
+      
+      setInterval(function(){
+        if(this.toggleFaviconFlag) {
+          this.toggleFaviconFlag = 0;
+        } else {
+          this.toggleFaviconFlag = 1;
+        }
+
+        this.toggleFavicon(srcs[this.toggleFaviconFlag]);
+
+      }.bind(this),1000);
+
+    };
+
+
+    uctApp.prototype.toggleFavicon = function(src) {
+     var link = document.createElement('link'),
+         oldLink = document.getElementById('dynamic-favicon');
+     link.id = 'dynamic-favicon';
+     link.rel = 'shortcut icon';
+     link.href = src;
+     if (oldLink) {
+      document.head.removeChild(oldLink);
+     }
+     document.head.appendChild(link);
     };
 
     // debug purposes
