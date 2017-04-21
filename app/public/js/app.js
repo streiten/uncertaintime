@@ -39,8 +39,8 @@
     };
 
     uctApp.prototype.periodHandler = function(msg){
-      document.getElementById("period-start").innerHTML = msg.start;
-      document.getElementById("period-end").innerHTML = msg.end;
+      document.getElementById("period-start").innerHTML = moment(msg.start).format();
+      document.getElementById("period-end").innerHTML = moment(msg.end).format();
     };
     
     uctApp.prototype.getUncertime = function(){
@@ -56,19 +56,19 @@
         var timeformat = "H:mm:ss";
         $(sel).html(this.uctime.format(timeformat)); 
 
-        if(this.uctime.second() % 2) {
-          if(this.secChanged){
-            this.secChanged = 0;
-            this.toggleFavicon(this.faviconSrcs[this.secChanged]);
-          }
-        } else {
-          if(!this.secChanged){
-            this.secChanged = 1;
-            this.toggleFavicon(this.faviconSrcs[this.secChanged]);
-          }
-        }
+        // if(this.uctime.second() % 2) {
+        //   if(this.secChanged){
+        //     this.secChanged = 0;
+        //     this.toggleFavicon(this.faviconSrcs[this.secChanged]);
+        //   }
+        // } else {
+        //   if(!this.secChanged){
+        //     this.secChanged = 1;
+        //     this.toggleFavicon(this.faviconSrcs[this.secChanged]);
+        //   }
+        // }
 
-        if (this.uct) {
+        if (this.uncertain) {
           $(sel).addClass('active');
         } else {
           $(sel).removeClass('active');
@@ -77,21 +77,10 @@
         // debug
         if($('body').hasClass('debug')){
           document.getElementById("real-time-string").innerHTML = moment().format(timeformat);
+          document.getElementById("uncertainTime-active").innerHTML = this.uncertain;
           setPieClock('uncertainty-time-pie-circle', this.uctime.seconds() );
           setPieClock('real-time-pie-circle', moment().seconds() );
         }
-    };
-
-    uctApp.prototype.toggleFavicon = function(src) {
-     var link = document.createElement('link'),
-         oldLink = document.getElementById('dynamic-favicon');
-     link.id = 'dynamic-favicon';
-     link.rel = 'shortcut icon';
-     link.href = src;
-     if (oldLink) {
-      document.head.removeChild(oldLink);
-     }
-     document.head.appendChild(link);
     };
 
     // debug purposes

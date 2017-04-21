@@ -9,28 +9,36 @@ var moment = require("moment");
 var EventEmitter = require('events').EventEmitter;
 util.inherits(uncertainTime, EventEmitter);
 
+var appConfig = require(path.join(__dirname,'..', 'config.js'));  
+
 function uncertainTime() {
   
   // reading in the schedule from file
   winston.log('info', "Init schedule... ");
 
-  this.debug = false;
-
-  if(this.debug) {
-   
-    this.initDebug(2);
+  this.debug = appConfig.debug;
   
+  if(this.debug) {
+    this.initDebug(5);
   } else {
 
     // var scheduleFile = path.join(__dirname,'..', 'schedule.json');
     // this.schedule = JSON.parse(fs.readFileSync(scheduleFile, 'utf8'));
     // this.initSchedule();
+    if( appConfig.initPeriod !== undefined ) {
+      winston.log('info', "Setting up first period...");
+      this.start =  moment(appConfig.initPeriod.start);
+      this.end =  moment(appConfig.initPeriod.end);
+      this.distortFunction = appConfig.initPeriod.distortFunction;
 
-    this.start =  moment().startOf('minute');
-    this.end = this.start.clone().add(1, 'm'); 
+    } else {
+      winston.log('info', "No Data on Period Init in config... zuffi now!");
+      this.generateUncertainPeriod();
+    }
 
     winston.log('info', "Current/Next Period Start: " + this.start.format());
     winston.log('info', "Current/Next Period End: " + this.end.format()); 
+    winston.log('info', "Distort function:" + this.distortFunction); 
     winston.log('info', "Period will last about " + this.end.from(this.start,true)); 
 
   }
@@ -78,7 +86,6 @@ uncertainTime.prototype.checkSchedule = function (){
   
     if(!this.uncertain) {
       this.emit('uncertainPeriodChanged','start');
-      
       this.uncertain = true;
     } 
   
@@ -171,7 +178,7 @@ function distortTime(val,start,end,type) {
       var result = 0;
     break; 
 
-    case 3:
+    case 2:
       var result = easing.easeInOutExpo(val,0,diff,diff);
     break; 
 

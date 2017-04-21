@@ -1,4 +1,9 @@
+var path = require('path');
+var appConfig = require(path.join(__dirname,'', 'config.js'));  
+
 var express = require('express');
+var expressUtils = require(__dirname + '/libs/expressUtils.js');
+
 var app = express();
 var winston = require('winston');
 var http = require('http').Server(app);
@@ -22,9 +27,6 @@ winston.log('info', 'Server started... in environment: ' + process.env.NODE_ENV)
 // port mapped by ufw to privileged ports 123 and 80 in production  
 var ntpport = 1234; 
 var httpport = 8080;
-
-debugger
-
 
 
 /**
@@ -75,7 +77,9 @@ function uncertainPeriodChangedHandler (msg) {
 app.use(express.static('public'));
 
 app.get('/',requestHandlerHome);
+app.use('/debug', expressUtils.basicAuth(appConfig.httpAuth.user, appConfig.httpAuth.pass));
 app.get('/debug',requestHandlerDebug);
+ 
 
 function requestHandlerHome(request, response) {
   response.sendFile( __dirname + '/views/index.html');
