@@ -124,7 +124,3 @@ p {
   fill: transparent;
   stroke: RGBA(255,0,0,0.5);
 }
-
-.active {
-  text-shadow: 0 0 3px RGBA(255,0,0,1);
-}
