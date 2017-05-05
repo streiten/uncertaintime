@@ -37,7 +37,7 @@ function NTPServer (port) {
   this.piwik = new PiwikTracker(1, 'http://uncertaintime.com:3000/piwik/piwik.php');
   this.piwikBaseUrl = 'http://uncertaintime.com';
 
-  piwik.track({
+  this.piwik.track({
       url: this.piwikBaseUrl + '/NTP',
       action_name: 'NTPServer started',
       e_c:'System',
