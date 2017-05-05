@@ -34,11 +34,11 @@ function NTPServer (port) {
   
   UDP.bind(port);
 
-  var piwik = new PiwikTracker(1, 'http://uncertaintime.com:3000/piwik/piwik.php');
-  var baseUrl = 'http://uncertaintime.com';
+  this.piwik = new PiwikTracker(1, 'http://uncertaintime.com:3000/piwik/piwik.php');
+  this.piwikBaseUrl = 'http://uncertaintime.com';
 
   piwik.track({
-      url: baseUrl + '/NTP',
+      url: this.piwikBaseUrl + '/NTP',
       action_name: 'NTPServer started',
       e_c:'System',
       e_a:'Start'
@@ -55,8 +55,8 @@ NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
 
       winston.log('info', 'client ' + rinfo.address + ' sent NTP packet...' );
 
-      piwik.track({
-          url: baseUrl + '/NTP',
+      this.piwik.track({
+          url: this.piwikBaseUrl + '/NTP',
           action_name: 'NTPServer request',
           e_c:'NTP',
           e_a:'request',
@@ -122,12 +122,6 @@ NTPServer.prototype.respondClients = function(msg){
           UDP.send(msg, 0, msg.length, to_port, to_ip, function(err, bytes) {
             if (err) throw err;
             winston.log('info','responding to ' + to_ip + ':' + to_port);
-            piwik.track({
-                url: baseUrl + '/NTP',
-                action_name: 'NTPServer response',
-                e_c:'NTP',
-                e_a:'response'
-            });
           });
         })(this.client_pool[0].address, this.client_pool[0].port);
         
