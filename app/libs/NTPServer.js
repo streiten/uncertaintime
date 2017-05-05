@@ -1,9 +1,13 @@
+var path = require('path');
+var appConfig = require(path.join(__dirname,'..', 'config.js'));
+
 var winston = require('winston');
 var dgram = require("dgram");
 var UDP = dgram.createSocket("udp4");
 var dns = require("dns");
 var moment = require("moment");
 var uct = require( './uncertainTime.js');
+var PiwikTracker = require('piwik-tracker');
 
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
@@ -30,6 +34,16 @@ function NTPServer (port) {
   
   UDP.bind(port);
 
+  var piwik = new PiwikTracker(1, 'http://uncertaintime.com:3000/piwik/piwik.php');
+  var baseUrl = 'http://uncertaintime.com';
+
+  piwik.track({
+      url: baseUrl + '/NTP',
+      action_name: 'NTPServer started',
+      e_c:'System',
+      e_a:'Start'
+  });
+
 }
 
 NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
@@ -40,7 +54,16 @@ NTPServer.prototype.UDPMessageHandler = function(msg, rinfo) {
     if (rinfo.address != this.time_server_ip) { 
 
       winston.log('info', 'client ' + rinfo.address + ' sent NTP packet...' );
-      
+
+      piwik.track({
+          url: baseUrl + '/NTP',
+          action_name: 'NTPServer request',
+          e_c:'NTP',
+          e_a:'request',
+          token_auth: appConfig.piwik.token,
+          cip: rinfo.address 
+      });
+
       this.client_pool.push({
         address: rinfo.address,
         port: rinfo.port
@@ -99,6 +122,12 @@ NTPServer.prototype.respondClients = function(msg){
           UDP.send(msg, 0, msg.length, to_port, to_ip, function(err, bytes) {
             if (err) throw err;
             winston.log('info','responding to ' + to_ip + ':' + to_port);
+            piwik.track({
+                url: baseUrl + '/NTP',
+                action_name: 'NTPServer response',
+                e_c:'NTP',
+                e_a:'response'
+            });
           });
         })(this.client_pool[0].address, this.client_pool[0].port);
         
