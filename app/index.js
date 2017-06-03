@@ -6,12 +6,15 @@ var expressUtils = require(__dirname + '/libs/expressUtils.js');
 
 var app = express();
 var winston = require('winston');
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var uct = require( __dirname + '/libs/uncertainTime.js');
 var NTPServer = require('./libs/NTPServer.js');
 var uBot = require('./libs/uncertainBot.js');
+
+var later = require('later');
 
 
 if(process.env.NODE_ENV == "development") {
@@ -69,6 +72,17 @@ function uncertainPeriodChangedHandler (msg) {
   winston.log('info', text);
 }
 
+// Tweet it!
+var sched = later.parse.recur().on(1).second();
+later.setInterval(tweetClock, sched);
+
+function tweetClock(){
+  var timeTweet = 'The time is ' + uct.time.format('HH:mm');
+  if(process.env.NODE_ENV == "production") {
+    uBot.tweet(timeTweet);
+  }
+  winston.log('info', timeTweet);
+}
 
 /**
  * The Webserving
