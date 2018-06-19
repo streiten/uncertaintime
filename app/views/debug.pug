@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    .app-wrap
+        .page-wrap
+            .debug-wrap
+                table
+                    tr
+                        td Start
+                        td {{ periodStart }}
+                    tr
+                        td End
+                        td {{ periodEnd }}
+                    tr
+                        td Uncertain
+                        td {{ uctActive }}
+                    tr
+                        td Client Time:
+                        td {{ clientTime }}
+                    tr
+                        td(colspan="2")
+                            | <svg id="uncertainty-time-pie" class="pie" viewBox="0 0 32 32">
+                            | <circle id="real-time-pie-circle" r="16" cx="16" cy="16" />
+                            | <circle id="uncertainty-time-pie-circle" r="16" cx="16" cy="16" /></svg>
+
+            .hero
+                .uncertainty
+                    .uncertain-time-wrap
+                        span(id="uncertain-time-string" v-bind:class="{'active': uctActive}") {{ time }}

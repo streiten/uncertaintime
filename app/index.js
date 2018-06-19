@@ -89,21 +89,28 @@ function tweetClock(){
  */
 
 app.use(express.static('public'));
+app.set('view engine', 'pug');
 
 app.get('/',requestHandlerHome);
+
 app.use('/debug', expressUtils.basicAuth(appConfig.httpAuth.user, appConfig.httpAuth.pass));
 app.get('/debug',requestHandlerDebug);
  
 
 function requestHandlerHome(request, response) {
-  response.sendFile( __dirname + '/views/index.html');
-  winston.log('info', 'Serving another Home request ' + request.hostname + ' to ' + request.ip );
+    winston.log('info', 'Serving another Home request ' + request.hostname + ' to ' + request.ip );
+    response.render('index', {
+      'bodyclass' : 'home'
+    });
 }
 
 function requestHandlerDebug(request, response) {
-  response.sendFile( __dirname + '/views/debug.html');
   winston.log('info', 'Serving another Debug request *tick tack*.');
+  response.render('debug', {
+      'bodyclass' : 'debug'
+  });
 }
+
 
 http.listen(httpport, function(){
   winston.log('info', 'Tick tacking since 1st of Jan 1970... on ' + httpport);
@@ -115,13 +122,13 @@ io.on('connection', function(socket){
   winston.log('info', 'A web client connected!');
   io.emit('welcome','Welcome timetraveler...');
 
-  socket.on('gettime', function(){
-    // winston.log('info', 'Websocket time requested... and served...');
-    io.emit('time', { 
-      value : uct.time,
-      uct: uct.uncertain
-    });
-  });
+  // emitting time every 100ms
+  setInterval(function () {
+      io.emit('time', {
+          value : uct.time,
+          uct: uct.uncertain
+      });
+  },100);
 
   socket.on('getperiod', function(){
     // winston.log('info', 'Websocket time requested... and served...');

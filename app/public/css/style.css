@@ -91,6 +91,16 @@ p {
   font-size: 8.5vw;
 }
 
+.social-nav {
+  list-style: none;
+  padding: 0;
+}
+
+.social-nav li {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
 .debug-wrap {
   font-family: 'Helvetica',sans-serif;
   color: red; 

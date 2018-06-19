@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    .app-wrap
+        .page-wrap(v-on:click="showOverlay")
+            .uncertainty
+                .uncertain-time-wrap
+                    span(id="uncertain-time-string" v-bind:class="{'active': uctActive}") {{ time }}
+
+        .overlay(v-bind:class="{'overlay-open' : overlayActive}",v-on:click="hideOverlay")
+            .concept
+                h1 uncertain time
+                h2 questioning time authority
+                p uncertain time is an investigation in dependency on machine and time.
+                p will it affect your system and life ?
+                    br
+                    | can you afford to loose track of time ?
+                    br
+                    | will you notice at all ? br
+                p set your computers timeserver setting to <i>uncertaintime.com</i>
+                    br
+                    | the uncertain timeserver will occasionally deliver an alternative time.
+                ul(class='social-nav')
+                    li
+                        a(class="twitter", href="https://twitter.com/uncertain_time")
+                            i(class="fa fa-twitter", aria-hidden="true")
+                    li
+                        a(class="github", href="https://github.com/streiten/uncertaintime")
+                            i(class="fa fa-github", aria-hidden="true")
