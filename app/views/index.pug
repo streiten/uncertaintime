@@ -3,9 +3,7 @@ extends layout
 block content
     .app-wrap
         .page-wrap(v-on:click="showOverlay")
-            .uncertainty
-                .uncertain-time-wrap
-                    span(id="uncertain-time-string" v-bind:class="{'active': uctActive}") {{ time }}
+            include partials/time.pug
 
         .overlay(v-bind:class="{'overlay-open' : overlayActive}",v-on:click="hideOverlay")
             .concept

@@ -57,6 +57,9 @@
 
         ref.uctime = moment(msg.value);
         ref.uncertain = msg.uct;
+        
+        //console.log(msg.value.toString());
+        //console.log(ref.uctime.local().format());
 
         var timeformat = "H:mm:ss";
         ref.appVue.time = ref.uctime.format(timeformat);

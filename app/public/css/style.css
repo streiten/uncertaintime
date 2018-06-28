@@ -22,6 +22,10 @@ p {
   font-size: 14px;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 .btn {
   color: black;
 }
@@ -82,8 +86,8 @@ p {
   top: 50%;
   left: 0;right: 0;
   width: 70%;
-  -webkit-transform: translateY(-6vw);
-          transform: translateY(-6vw);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   padding-left: 1.5vw;
 }
 
