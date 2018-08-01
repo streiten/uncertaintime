@@ -1,5 +1,6 @@
 .idea
 *.log
+*.subl*
 node_modules
 twitter_config.js
 config.js
